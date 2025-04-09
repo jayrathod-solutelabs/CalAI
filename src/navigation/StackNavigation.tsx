@@ -13,7 +13,7 @@ export default function StackNavigation() {
   useEffect(() => {
     setTimeout(() => {
         setIsSplash(false);
-    }, 3000000);
+    }, 1000);
 }, []);
 
   return (

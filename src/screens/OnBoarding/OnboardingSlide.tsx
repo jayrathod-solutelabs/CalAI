@@ -91,18 +91,18 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
   },
   title: {
-    fontSize: 24, // Increased to match screenshot
+    fontSize: 24,
     color: colorsConstants.onBoardingTitle,
     textAlign: 'center',
     marginBottom: 16,
-    fontFamily: fonts.DMSansBold, // Use appropriate font
+    fontFamily: fonts.DMSansBold,
   },
   subtitle: {
-    fontSize: 16, // Adjusted to match screenshot
+    fontSize: 16,
     color: colorsConstants.onBoardingSubtitle,
     textAlign: 'center',
     lineHeight: 24,
-    fontFamily: fonts.DMSansRegular, // Use appropriate font
+    fontFamily: fonts.DMSansRegular, 
   },
 });
 export default OnboardingSlide;

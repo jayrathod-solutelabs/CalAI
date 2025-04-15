@@ -1,18 +1,29 @@
-// components/Button.js
+// components/RoundedButton.tsx
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import fonts from '../constants/fontConstants';
 import { colorsConstants } from '../constants/colorsConstants';
 
-const RoundedButton = ({ 
+interface RoundedButtonProps {
+  title: string;
+  onPress: () => void;
+  disabled?: boolean;
+}
+
+const RoundedButton: React.FC<RoundedButtonProps> = ({ 
   title, 
   onPress,
   disabled = false
 }) => {
+  const handlePress = () => {
+    console.log('RoundedButton pressed:', title);
+    onPress();
+  };
+
   return (
     <TouchableOpacity
       style={[styles.button, disabled && styles.disabledButton]}
-      onPress={onPress}
+      onPress={handlePress}
       disabled={disabled}
       activeOpacity={0.8}
     >

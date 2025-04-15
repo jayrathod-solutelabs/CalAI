@@ -4,6 +4,59 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
+# Cal AI App
+
+This is a calorie and fitness tracking app that helps users set and achieve their health goals.
+
+## Features
+
+### Profile Setup Flow
+
+The app includes a reusable form system for profile setup with the following features:
+
+- Gender selection
+- Weight goal selection (gain weight, maintain, lose weight)
+- Weight loss target information
+- Progress indicator for multi-step forms
+- Data persistence throughout the setup flow
+
+### Reusable Components
+
+The app uses several reusable components:
+
+- **FormScreen**: A reusable form component that supports different content types (options, images, text)
+- **RoundedButton**: A common button component used throughout the app
+
+## Project Structure
+
+```
+/src
+  /assets
+    /images   # Image resources
+  /components
+    FormScreen.tsx     # Reusable form component
+    RoundedButton.js   # Common button component
+  /constants
+    colorsConstants.tsx  # Color definitions
+    fontConstants.tsx    # Font definitions
+  /contexts
+    ProfileContext.tsx   # Profile data persistence
+  /navigation
+    StackNavigation.tsx        # Main navigation
+    ProfileSetupNavigator.tsx  # Profile setup flow navigation
+  /screens
+    /Home
+      HomeScreen.tsx         # Home screen
+    /OnBoarding
+      OnboardingScreen.tsx   # Onboarding screens
+    /ProfileSetup
+      GenderSelectScreen.tsx        # Gender selection
+      GoalSelectScreen.tsx          # Goal selection
+      WeightLossTargetScreen.tsx    # Weight loss information
+    /Splash
+      SplashScreen.tsx        # Initial splash screen
+```
+
 ## Step 1: Start the Metro Server
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.

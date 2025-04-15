@@ -46,13 +46,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete, slides 
   const flatListRef = useRef<FlatList<SlideData>>(null);
 
   const handleNext = (): void => {
-    if (currentIndex < slides.length - 1) {
-      flatListRef.current?.scrollToIndex({ index: currentIndex + 1 });
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      // Last slide, complete onboarding
-      onComplete && onComplete();
-    }
+    onComplete && onComplete();
   };
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>): void => {

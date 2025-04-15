@@ -11,7 +11,8 @@ export interface ProfileData {
   usedPreviousApps?: string;
   diet?: string;
   accomplishment?: string;
-
+  mealPreference?: string;
+  trackingFrequency?: string;
 }
 
 // Define the context interface

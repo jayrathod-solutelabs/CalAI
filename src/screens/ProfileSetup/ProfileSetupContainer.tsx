@@ -4,9 +4,24 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FormScreen, { ContentType, OptionItem } from '../../components/FormScreen';
 import { useProfile } from '../../contexts/ProfileContext';
 
-// Import app logo
-// Note: This is a placeholder, you'll need to add the actual logo file
+// Import app logo and icons
+// Note: These are placeholders, you'll need to add the actual image files
 const appLogo = require('../../assets/images/splash_screen_logo.png');
+// Icons for frequency options
+const lowFrequencyIcon = require('../../assets/images/frequency_low.png');
+const medFrequencyIcon = require('../../assets/images/frequency_medium.png');
+const highFrequencyIcon = require('../../assets/images/frequency_high.png');
+// Icons for previous apps options
+const thumbsUpIcon = require('../../assets/images/thumbs_up.png');
+const thumbsDownIcon = require('../../assets/images/thumbs_down.png');
+// Icons for activity level
+const activityLowIcon = require('../../assets/images/frequency_low.png');
+const activityMediumIcon = require('../../assets/images/frequency_medium.png');
+const activityHighIcon = require('../../assets/images/frequency_high.png');
+// Icons for meal preferences
+const mealThreeIcon = require('../../assets/images/meal_three.png');
+const mealFourIcon = require('../../assets/images/meal_four.png');
+const mealFiveIcon = require('../../assets/images/meal_five.png');
 
 // Define content props type
 interface ContentProps {
@@ -26,7 +41,7 @@ const ProfileSetupContainer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { profileData, updateProfile } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
-  const TOTAL_STEPS = 9;
+  const TOTAL_STEPS = 12;
 
   // State for each step
   const [selectedGender, setSelectedGender] = useState<string | undefined>(profileData.gender);
@@ -35,6 +50,9 @@ const ProfileSetupContainer = () => {
   const [selectedGoal, setSelectedGoal] = useState<string | undefined>(profileData.goal);
   const [selectedDiet, setSelectedDiet] = useState<string | undefined>(profileData.diet);
   const [selectedAccomplishment, setSelectedAccomplishment] = useState<string | undefined>(profileData.accomplishment);
+  const [selectedActivity, setSelectedActivity] = useState<string | undefined>(profileData.activityLevel);
+  const [selectedMealPreference, setSelectedMealPreference] = useState<string | undefined>(profileData.mealPreference);
+  const [selectedTrackingFrequency, setSelectedTrackingFrequency] = useState<string | undefined>(profileData.trackingFrequency);
 
   useEffect(() => {
     // If we have saved profile data, initialize the state
@@ -44,6 +62,9 @@ const ProfileSetupContainer = () => {
     if (profileData.goal) setSelectedGoal(profileData.goal);
     if (profileData.diet) setSelectedDiet(profileData.diet);
     if (profileData.accomplishment) setSelectedAccomplishment(profileData.accomplishment);
+    if (profileData.activityLevel) setSelectedActivity(profileData.activityLevel);
+    if (profileData.mealPreference) setSelectedMealPreference(profileData.mealPreference);
+    if (profileData.trackingFrequency) setSelectedTrackingFrequency(profileData.trackingFrequency);
   }, [profileData]);
 
   // Handle back navigation
@@ -97,6 +118,21 @@ const ProfileSetupContainer = () => {
     updateProfile({ accomplishment: value });
   };
 
+  const handleSelectActivity = (value: string) => {
+    setSelectedActivity(value);
+    updateProfile({ activityLevel: value });
+  };
+
+  const handleSelectMealPreference = (value: string) => {
+    setSelectedMealPreference(value);
+    updateProfile({ mealPreference: value });
+  };
+
+  const handleSelectTrackingFrequency = (value: string) => {
+    setSelectedTrackingFrequency(value);
+    updateProfile({ trackingFrequency: value });
+  };
+
   // Define all options for different steps
   const genderOptions: OptionItem[] = [
     { id: '1', label: 'Male', value: 'male' },
@@ -105,14 +141,14 @@ const ProfileSetupContainer = () => {
   ];
 
   const frequencyOptions: OptionItem[] = [
-    { id: '1', label: '0-2', value: '0-2' },
-    { id: '2', label: '3-5', value: '3-5' },
-    { id: '3', label: '6+', value: '6+' },
+    { id: '1', label: '0-2', value: '0-2', icon: lowFrequencyIcon, subtext: 'Workouts now and then' },
+    { id: '2', label: '3-5', value: '3-5', icon: medFrequencyIcon, subtext: 'A few workouts per week' },
+    { id: '3', label: '6+', value: '6+', icon: highFrequencyIcon, subtext: 'Dedicated athlete' },
   ];
 
   const previousAppsOptions: OptionItem[] = [
-    { id: '1', label: 'Yes', value: 'yes' },
-    { id: '2', label: 'No', value: 'no' },
+    { id: '1', label: 'Yes', value: 'yes', icon: thumbsUpIcon },
+    { id: '2', label: 'No', value: 'no', icon: thumbsDownIcon },
   ];
 
   const goalOptions: OptionItem[] = [
@@ -135,18 +171,39 @@ const ProfileSetupContainer = () => {
     { id: '4', label: 'Feel better about my body', value: 'body' },
   ];
 
+  const activityOptions: OptionItem[] = [
+    { id: '1', label: 'Low', value: 'low', icon: activityLowIcon, subtext: 'Mostly sedentary' },
+    { id: '2', label: 'Medium', value: 'medium', icon: activityMediumIcon, subtext: 'Moderately active' },
+    { id: '3', label: 'High', value: 'high', icon: activityHighIcon, subtext: 'Very active lifestyle' },
+  ];
+
+  const mealPreferenceOptions: OptionItem[] = [
+    { id: '1', label: '3 meals', value: 'three', icon: mealThreeIcon },
+    { id: '2', label: '4 meals', value: 'four', icon: mealFourIcon },
+    { id: '3', label: '5+ meals', value: 'five', icon: mealFiveIcon },
+  ];
+
+  const trackingFrequencyOptions: OptionItem[] = [
+    { id: '1', label: 'Daily', value: 'daily', icon: highFrequencyIcon, subtext: 'Track meals every day' },
+    { id: '2', label: 'Several times a week', value: 'several', icon: medFrequencyIcon, subtext: 'Track 3-5 days per week' },
+    { id: '3', label: 'Occasionally', value: 'occasionally', icon: lowFrequencyIcon, subtext: 'Track when it fits your schedule' },
+  ];
+
   // Check if next button should be disabled
   const isNextDisabled = () => {
     switch (currentStep) {
       case 1: return !selectedGender;
       case 2: return !selectedFrequency;
       case 3: return !selectedPreviousApps;
-      case 4: return false;
+      case 4: return false; // Image screen
       case 5: return !selectedGoal;
       case 6: return !selectedDiet;
       case 7: return !selectedAccomplishment;
-      case 8: return false;
-      case 9: return false;
+      case 8: return !selectedActivity;
+      case 9: return !selectedMealPreference;
+      case 10: return !selectedTrackingFrequency;
+      case 11: return false; // Image screen
+      case 12: return false; // Final screen
       default: return false;
     }
   };
@@ -167,7 +224,7 @@ const ProfileSetupContainer = () => {
         return {
           title: "How many workouts do you do per week?",
           subtitle: "This will be used to calibrate your custom plan",
-          contentType: ContentType.OPTIONS,
+          contentType: ContentType.CIRCULAR_ICON_SUBTEXT_OPTIONS,
           options: frequencyOptions,
           selectedOption: selectedFrequency,
           onSelectOption: handleSelectFrequency,
@@ -176,7 +233,7 @@ const ProfileSetupContainer = () => {
         return {
           title: "Have you tried other calorie tracking apps?",
           subtitle: "",
-          contentType: ContentType.OPTIONS,
+          contentType: ContentType.CIRCULAR_ICON_OPTIONS,
           options: previousAppsOptions,
           selectedOption: selectedPreviousApps,
           onSelectOption: handleSelectPreviousApps,
@@ -184,7 +241,7 @@ const ProfileSetupContainer = () => {
       case 4:
         return {
           title: "Cal AI creates long-term results",
-          subtitle: "",
+          subtitle: "Our AI coach adapts to your schedule and preferences",
           contentType: ContentType.IMAGE,
           imageSource: appLogo,
           imageAlt: "Cal AI Logo",
@@ -201,7 +258,7 @@ const ProfileSetupContainer = () => {
       case 6:
         return {
           title: "Do you follow a specific diet?",
-          subtitle: "",
+          subtitle: "We'll tailor your meal recommendations accordingly",
           contentType: ContentType.OPTIONS,
           options: dietOptions,
           selectedOption: selectedDiet,
@@ -210,7 +267,7 @@ const ProfileSetupContainer = () => {
       case 7:
         return {
           title: "What would you like to accomplish?",
-          subtitle: "",
+          subtitle: "Beyond just calories, what matters to you?",
           contentType: ContentType.OPTIONS,
           options: accomplishmentOptions,
           selectedOption: selectedAccomplishment,
@@ -218,16 +275,43 @@ const ProfileSetupContainer = () => {
         };
       case 8:
         return {
-          title: "You have a great potential to crush your goals",
-          subtitle: "",
-          contentType: ContentType.IMAGE,
-          imageSource: appLogo,
-          imageAlt: "Cal AI Logo",
+          title: "What's your activity level?",
+          subtitle: "Outside of workouts, how active are you daily?",
+          contentType: ContentType.CIRCULAR_ICON_SUBTEXT_OPTIONS,
+          options: activityOptions,
+          selectedOption: selectedActivity,
+          onSelectOption: handleSelectActivity,
         };
       case 9:
         return {
-          title: "You have a great potential to crush your goals",
-          subtitle: "",
+          title: "How many meals do you prefer?",
+          subtitle: "We'll optimize your meal plan accordingly",
+          contentType: ContentType.CIRCULAR_ICON_OPTIONS,
+          options: mealPreferenceOptions,
+          selectedOption: selectedMealPreference,
+          onSelectOption: handleSelectMealPreference,
+        };
+      case 10:
+        return {
+          title: "How often will you track?",
+          subtitle: "Be realistic - consistency is more important than perfection",
+          contentType: ContentType.CIRCULAR_ICON_SUBTEXT_OPTIONS,
+          options: trackingFrequencyOptions,
+          selectedOption: selectedTrackingFrequency,
+          onSelectOption: handleSelectTrackingFrequency,
+        };
+      case 11:
+        return {
+          title: "Your plan is ready!",
+          subtitle: "We've created a custom plan based on your unique profile",
+          contentType: ContentType.IMAGE,
+          imageSource: appLogo,
+          imageAlt: "Cal AI Plan Ready",
+        };
+      case 12:
+        return {
+          title: "You have great potential to crush your goals",
+          subtitle: "Let's start your journey to a healthier lifestyle",
           contentType: ContentType.IMAGE,
           imageSource: appLogo,
           imageAlt: "Cal AI Logo",

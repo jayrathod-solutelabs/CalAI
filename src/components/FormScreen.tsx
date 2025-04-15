@@ -14,6 +14,8 @@ export enum ContentType {
   OPTIONS = 'options',
   IMAGE = 'image',
   TEXT = 'text',
+  CIRCULAR_ICON_OPTIONS = 'circular_icon_options',
+  CIRCULAR_ICON_SUBTEXT_OPTIONS = 'circular_icon_subtext_options',
 }
 
 // Option item interface
@@ -21,6 +23,8 @@ export interface OptionItem {
   id: string;
   label: string;
   value: string;
+  subtext?: string;
+  icon?: any; // For icon-based options
 }
 
 // Props for the FormScreen component
@@ -184,6 +188,120 @@ const FormScreen: React.FC<FormScreenProps> = ({
                     >
                       {option.label}
                     </Text>
+                  </TouchableOpacity>
+                </Animated.View>
+              );
+            })}
+          </Animated.View>
+        );
+
+      case ContentType.CIRCULAR_ICON_OPTIONS:
+        return (
+          <Animated.View 
+            style={[
+              styles.circularOptionsContainer, 
+              { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+            ]}
+          >
+            {options.map((option) => {
+              // Initialize animation value if needed
+              if (!optionAnimations.current[option.id]) {
+                optionAnimations.current[option.id] = new Animated.Value(1);
+              }
+              
+              const isSelected = selectedOption === option.value;
+              
+              return (
+                <Animated.View
+                  key={option.id}
+                  style={{
+                    transform: [{ scale: optionAnimations.current[option.id] }],
+                  }}
+                >
+                  <TouchableOpacity
+                    style={[
+                      styles.circularOptionItem,
+                      isSelected && styles.selectedCircularOption,
+                    ]}
+                    onPress={() => handleOptionSelect(option)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.circleIconContainer}>
+                      {option.icon && (
+                        <Image source={option.icon} style={styles.optionIcon} />
+                      )}
+                    </View>
+                    <Text
+                      style={[
+                        styles.circularOptionText,
+                        isSelected && styles.selectedCircularOptionText,
+                      ]}
+                    >
+                      {option.label}
+                    </Text>
+                  </TouchableOpacity>
+                </Animated.View>
+              );
+            })}
+          </Animated.View>
+        );
+
+      case ContentType.CIRCULAR_ICON_SUBTEXT_OPTIONS:
+        return (
+          <Animated.View 
+            style={[
+              styles.circularOptionsContainer, 
+              { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+            ]}
+          >
+            {options.map((option) => {
+              // Initialize animation value if needed
+              if (!optionAnimations.current[option.id]) {
+                optionAnimations.current[option.id] = new Animated.Value(1);
+              }
+              
+              const isSelected = selectedOption === option.value;
+              
+              return (
+                <Animated.View
+                  key={option.id}
+                  style={{
+                    transform: [{ scale: optionAnimations.current[option.id] }],
+                  }}
+                >
+                  <TouchableOpacity
+                    style={[
+                      styles.circularOptionItem,
+                      isSelected && styles.selectedCircularOption,
+                    ]}
+                    onPress={() => handleOptionSelect(option)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.circleIconContainer}>
+                      {option.icon && (
+                        <Image source={option.icon} style={styles.optionIcon} />
+                      )}
+                    </View>
+                    <View style={styles.optionTextContainer}>
+                      <Text
+                        style={[
+                          styles.circularOptionText,
+                          isSelected && styles.selectedCircularOptionText,
+                        ]}
+                      >
+                        {option.label}
+                      </Text>
+                      {option.subtext && (
+                        <Text
+                          style={[
+                            styles.optionSubtext,
+                            isSelected && styles.selectedOptionSubtext,
+                          ]}
+                        >
+                          {option.subtext}
+                        </Text>
+                      )}
+                    </View>
                   </TouchableOpacity>
                 </Animated.View>
               );
@@ -385,6 +503,56 @@ const styles = StyleSheet.create({
   },
   selectedOptionText: {
     color: 'white',
+  },
+  // Circular options styles
+  circularOptionsContainer: {
+    width: '100%',
+  },
+  circularOptionItem: {
+    width: '100%',
+    padding: 20,
+    borderRadius: 12,
+    backgroundColor: '#f5f5f5',
+    marginBottom: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  selectedCircularOption: {
+    backgroundColor: '#1c1b23',
+  },
+  circleIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#ddd',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 16,
+  },
+  optionIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+  optionTextContainer: {
+    flex: 1,
+  },
+  circularOptionText: {
+    fontSize: 18,
+    fontFamily: fonts.DMSansMedium,
+    color: '#1c1b23',
+  },
+  selectedCircularOptionText: {
+    color: 'white',
+  },
+  optionSubtext: {
+    fontSize: 14,
+    fontFamily: fonts.DMSansRegular,
+    color: '#666',
+    marginTop: 4,
+  },
+  selectedOptionSubtext: {
+    color: 'rgba(255, 255, 255, 0.8)',
   },
   // Image styles
   imageContainer: {

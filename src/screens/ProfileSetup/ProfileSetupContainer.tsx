@@ -47,7 +47,7 @@ const ProfileSetupContainer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { profileData, updateProfile } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
-  const TOTAL_STEPS = 12;
+  const TOTAL_STEPS = 11;
 
   // State for each step
   const [selectedGender, setSelectedGender] = useState<string | undefined>(profileData.gender);
@@ -209,7 +209,6 @@ const ProfileSetupContainer = () => {
       case 9: return !selectedMealPreference;
       case 10: return !selectedTrackingFrequency;
       case 11: return false; // Image screen
-      case 12: return false; // Final screen
       default: return false;
     }
   };

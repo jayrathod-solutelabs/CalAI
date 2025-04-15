@@ -40,6 +40,7 @@ interface ContentProps {
   imageSource?: any;
   imageAlt?: string;
   textContent?: string;
+  highlightText?: string;
 }
 
 // All screens data
@@ -47,7 +48,7 @@ const ProfileSetupContainer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { profileData, updateProfile } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
-  const TOTAL_STEPS = 11;
+  const TOTAL_STEPS = 13;
 
   // State for each step
   const [selectedGender, setSelectedGender] = useState<string | undefined>(profileData.gender);
@@ -209,6 +210,8 @@ const ProfileSetupContainer = () => {
       case 9: return !selectedMealPreference;
       case 10: return !selectedTrackingFrequency;
       case 11: return false; // Image screen
+      case 12: return false; // Highlight text screen
+      case 13: return false; // Thank you screen
       default: return false;
     }
   };
@@ -313,6 +316,19 @@ const ProfileSetupContainer = () => {
           imageSource: weightTransition,
           imageAlt: "Cal AI Logo",
         };
+      case 12:
+        return {
+          title: "",
+          subtitle: "",
+          contentType: ContentType.HIGHLIGHT_TEXT,
+          highlightText: "119 lbs",
+        };
+      case 13:
+        return {
+          title: "",
+          subtitle: "",
+          contentType: ContentType.THANK_YOU,
+        };
       default:
         return {
           title: "",
@@ -324,7 +340,7 @@ const ProfileSetupContainer = () => {
   };
 
   const stepContent = renderStepContent();
-  const nextButtonTitle = currentStep === TOTAL_STEPS ? "Complete" : "Next";
+  const nextButtonTitle = currentStep === TOTAL_STEPS ? "Create my plan" : "Next";
 
   return (
     <FormScreen
@@ -338,6 +354,7 @@ const ProfileSetupContainer = () => {
       imageSource={stepContent.imageSource}
       imageAlt={stepContent.imageAlt}
       textContent={stepContent.textContent}
+      highlightText={stepContent.highlightText}
       currentStep={currentStep}
       totalSteps={TOTAL_STEPS}
       onNext={handleNext}

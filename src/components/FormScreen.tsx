@@ -4,6 +4,7 @@ import { colorsConstants } from '../constants/colorsConstants';
 import RoundedButton from './RoundedButton';
 import fonts from '../constants/fontConstants';
 import { imageConstants } from '../constants/imageConstants';
+import ConfettiEffect from './ConfettiEffect';
 
 const { width } = Dimensions.get('window');
 
@@ -16,6 +17,8 @@ export enum ContentType {
   TEXT = 'text',
   CIRCULAR_ICON_OPTIONS = 'circular_icon_options',
   CIRCULAR_ICON_SUBTEXT_OPTIONS = 'circular_icon_subtext_options',
+  HIGHLIGHT_TEXT = 'highlight_text',
+  THANK_YOU = 'thank_you',
 }
 
 // Option item interface
@@ -39,6 +42,7 @@ export interface FormScreenProps {
   imageSource?: ImageSourcePropType;
   imageAlt?: string;
   textContent?: string;
+  highlightText?: string; // For highlighted text in HIGHLIGHT_TEXT type
   // Progress props
   currentStep: number;
   totalSteps: number;
@@ -60,6 +64,7 @@ const FormScreen: React.FC<FormScreenProps> = ({
   imageSource,
   imageAlt,
   textContent,
+  highlightText,
   currentStep,
   totalSteps,
   onNext,
@@ -338,6 +343,50 @@ const FormScreen: React.FC<FormScreenProps> = ({
             <Text style={styles.contentText}>{textContent}</Text>
           </Animated.View>
         );
+        
+      case ContentType.HIGHLIGHT_TEXT:
+        return (
+          <Animated.View 
+            style={[
+              styles.highlightTextContainer, 
+              { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+            ]}
+          >
+            <Text style={styles.highlightTitleText}>
+              Losing <Text style={styles.highlightedPart}>{highlightText}</Text> is a realistic target. it's not hard at all!
+            </Text>
+            <Text style={styles.highlightSubText}>
+              90% of users say that the change is obvious after using Cal AI and it is not easy to rebound.
+            </Text>
+          </Animated.View>
+        );
+        
+      case ContentType.THANK_YOU:
+        return (
+          <Animated.View 
+            style={[
+              styles.thankYouContainer, 
+              { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+            ]}
+          >
+            <ConfettiEffect />
+            <View style={styles.checkmarkContainer}>
+              <View style={styles.checkmarkIconWrapper}>
+                <Image 
+                  source={imageConstants.ThumbsUpIcon} 
+                  style={styles.checkmarkIcon} 
+                />
+              </View>
+              <Text style={styles.allDoneText}>All done!</Text>
+            </View>
+            <Text style={styles.thankYouTitleText}>
+              Thank you for trusting us
+            </Text>
+            <Text style={styles.thankYouSubText}>
+              We promise to always keep your personal information private and secure.
+            </Text>
+          </Animated.View>
+        );
 
       default:
         return null;
@@ -387,19 +436,24 @@ const FormScreen: React.FC<FormScreenProps> = ({
         contentContainerStyle={styles.contentScrollContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Title and subtitle */}
-        <Animated.View 
-          style={[
-            styles.headerContainer, 
-            { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
-          ]}
-        >
-          <Text style={styles.titleText}>{title}</Text>
-          <Text style={styles.subtitleText}>{subtitle}</Text>
-        </Animated.View>
+        {/* Title and subtitle - only show for non-THANK_YOU screens */}
+        {contentType !== ContentType.THANK_YOU && contentType !== ContentType.HIGHLIGHT_TEXT && (
+          <Animated.View 
+            style={[
+              styles.headerContainer, 
+              { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+            ]}
+          >
+            <Text style={styles.titleText}>{title}</Text>
+            <Text style={styles.subtitleText}>{subtitle}</Text>
+          </Animated.View>
+        )}
         
         {/* Main content area */}
-        <View style={styles.mainContent}>
+        <View style={[
+          styles.mainContent,
+          (contentType === ContentType.THANK_YOU || contentType === ContentType.HIGHLIGHT_TEXT) && styles.centeredContent
+        ]}>
           {renderContent()}
         </View>
       </ScrollView>
@@ -407,7 +461,7 @@ const FormScreen: React.FC<FormScreenProps> = ({
       {/* Next button */}
       <View style={styles.buttonContainer}>
         <RoundedButton
-          title={nextButtonTitle}
+          title={contentType === ContentType.THANK_YOU ? "Create my plan" : nextButtonTitle}
           onPress={handleNextPress}
           disabled={nextDisabled}
         />
@@ -579,6 +633,88 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 30,
     width: '100%',
+  },
+  // Highlight text styles
+  highlightTextContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 60,
+  },
+  highlightTitleText: {
+    fontSize: 38,
+    textAlign: 'center',
+    color: colorsConstants.onBoardingTitle,
+    fontFamily: fonts.DMSansBold,
+    marginBottom: 30,
+    lineHeight: 44,
+  },
+  highlightedPart: {
+    color: '#E8833B', // Orange color from the screenshot
+  },
+  highlightSubText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: colorsConstants.onBoardingSubtitle,
+    fontFamily: fonts.DMSansRegular,
+    lineHeight: 26,
+  },
+  
+  // Thank you screen styles
+  thankYouContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 60,
+  },
+  checkmarkContainer: {
+    alignItems: 'center',
+    marginBottom: 40,
+  },
+  checkmarkIconWrapper: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#E8833B', // Orange background
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  checkmarkIcon: {
+    width: 30,
+    height: 30,
+    tintColor: 'white',
+  },
+  allDoneText: {
+    fontSize: 18,
+    color: colorsConstants.onBoardingTitle,
+    fontFamily: fonts.DMSansMedium,
+  },
+  thankYouTitleText: {
+    fontSize: 36,
+    textAlign: 'center',
+    color: colorsConstants.onBoardingTitle,
+    fontFamily: fonts.DMSansBold,
+    marginBottom: 16,
+    lineHeight: 42,
+  },
+  thankYouSubText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: colorsConstants.onBoardingSubtitle,
+    fontFamily: fonts.DMSansRegular,
+    lineHeight: 26,
+  },
+  
+  centeredContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

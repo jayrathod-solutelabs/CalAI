@@ -8,6 +8,10 @@ import { imageConstants } from '../../constants/imageConstants';
 // Replace individual image imports with constants
 const appLogo = imageConstants.SplashScreenLogo;
 const weight = imageConstants.Weight;
+const orange = imageConstants.orange;
+const sun = imageConstants.sun;
+const rocket = imageConstants.rocket;
+const yoga = imageConstants.yoga;
 const pescatarian = imageConstants.pescatarian;
 const vegetarian = imageConstants.vegetarian;
 const vegan = imageConstants.vegan;
@@ -167,10 +171,10 @@ const ProfileSetupContainer = () => {
   ];
 
   const accomplishmentOptions: OptionItem[] = [
-    { id: '1', label: 'Eat and live healthier', value: 'healthier' },
-    { id: '2', label: 'Boost my energy and mood', value: 'energy' },
-    { id: '3', label: 'Stay motivated and consistent', value: 'motivated' },
-    { id: '4', label: 'Feel better about my body', value: 'body' },
+    { id: '1', label: 'Eat and live healthier', value: 'healthier', icon: orange },
+    { id: '2', label: 'Boost my energy and mood', value: 'energy', icon: sun },
+    { id: '3', label: 'Stay motivated and consistent', value: 'motivated', icon: rocket },
+    { id: '4', label: 'Feel better about my body', value: 'body', icon: yoga },
   ];
 
   const activityOptions: OptionItem[] = [
@@ -260,8 +264,6 @@ const ProfileSetupContainer = () => {
       case 6:
         return {
           title: "Do you follow a specific diet?",
-
-
           subtitle: "We'll tailor your meal recommendations accordingly",
           contentType: ContentType.CIRCULAR_ICON_OPTIONS,
           options: dietOptions,
@@ -272,7 +274,7 @@ const ProfileSetupContainer = () => {
         return {
           title: "What would you like to accomplish?",
           subtitle: "Beyond just calories, what matters to you?",
-          contentType: ContentType.OPTIONS,
+          contentType: ContentType.CIRCULAR_ICON_OPTIONS,
           options: accomplishmentOptions,
           selectedOption: selectedAccomplishment,
           onSelectOption: handleSelectAccomplishment,

@@ -7,6 +7,8 @@ import { imageConstants } from '../../constants/imageConstants';
 
 // Replace individual image imports with constants
 const appLogo = imageConstants.SplashScreenLogo;
+const weight = imageConstants.Weight;
+const weightTransition = imageConstants.WeightTransition;
 const lowFrequencyIcon = imageConstants.LowFrequencyIcon;
 const medFrequencyIcon = imageConstants.MedFrequencyIcon;
 const highFrequencyIcon = imageConstants.HighFrequencyIcon;
@@ -239,7 +241,7 @@ const ProfileSetupContainer = () => {
           title: "Cal AI creates long-term results",
           subtitle: "Our AI coach adapts to your schedule and preferences",
           contentType: ContentType.IMAGE,
-          imageSource: appLogo,
+          imageSource: weight,
           imageAlt: "Cal AI Logo",
         };
       case 5:
@@ -298,19 +300,19 @@ const ProfileSetupContainer = () => {
         };
       case 11:
         return {
+          title: "You have great potential to crush your goals",
+          subtitle: "Let's start your journey to a healthier lifestyle",
+          contentType: ContentType.IMAGE,
+          imageSource: weightTransition,
+          imageAlt: "Cal AI Logo",
+        };
+      case 12:
+        return {
           title: "Your plan is ready!",
           subtitle: "We've created a custom plan based on your unique profile",
           contentType: ContentType.IMAGE,
           imageSource: appLogo,
           imageAlt: "Cal AI Plan Ready",
-        };
-      case 12:
-        return {
-          title: "You have great potential to crush your goals",
-          subtitle: "Let's start your journey to a healthier lifestyle",
-          contentType: ContentType.IMAGE,
-          imageSource: appLogo,
-          imageAlt: "Cal AI Logo",
         };
       default:
         return {

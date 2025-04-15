@@ -562,8 +562,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 250,
-    resizeMode: 'contain',
+    height: 350,
+    resizeMode: 'cover',
   },
   // Text styles
   textContainer: {

@@ -1,5 +1,7 @@
 export const imageConstants = {
     SplashScreenLogo : require('../assets/images/splash_screen_logo.png'),
+    Weight : require('../assets/images/weight.jpg'),
+    WeightTransition : require('../assets/images/weight_transition.jpg'),
     BackArrow : require('../assets/images/back_arrow.png'),
     LowFrequencyIcon: require('../assets/images/frequency_low.png'),
     MedFrequencyIcon: require('../assets/images/frequency_medium.png'),

@@ -314,14 +314,6 @@ const ProfileSetupContainer = () => {
           imageSource: weightTransition,
           imageAlt: "Cal AI Logo",
         };
-      case 12:
-        return {
-          title: "Your plan is ready!",
-          subtitle: "We've created a custom plan based on your unique profile",
-          contentType: ContentType.IMAGE,
-          imageSource: appLogo,
-          imageAlt: "Cal AI Plan Ready",
-        };
       default:
         return {
           title: "",

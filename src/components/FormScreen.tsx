@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Dimensions, ImageSourc
 import { colorsConstants } from '../constants/colorsConstants';
 import RoundedButton from './RoundedButton';
 import fonts from '../constants/fontConstants';
+import { imageConstants } from '../constants/imageConstants';
 
 const { width } = Dimensions.get('window');
+
+
 
 // Define content type enum
 export enum ContentType {
@@ -251,13 +254,16 @@ const FormScreen: React.FC<FormScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      {/* Back button */}
-      <TouchableOpacity style={styles.backButton} onPress={onBack}>
-        <Text style={styles.backButtonText}>←</Text>
-      </TouchableOpacity>
-      
-      {/* Progress indicator */}
-      {renderProgressBar()}
+      {/* Navigation row with back button and progress bar */}
+      <View style={styles.navigationRow}>
+        {/* Back button */}
+        <TouchableOpacity style={styles.backButton} onPress={onBack}>
+          <Image source={imageConstants.BackArrow} style={styles.backButtonImage} />
+        </TouchableOpacity>
+        
+        {/* Progress indicator */}
+        {renderProgressBar()}
+      </View>
       
       <ScrollView 
         contentContainerStyle={styles.contentScrollContainer}
@@ -298,25 +304,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'column',
   },
+  navigationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginTop: 50,
+  },
   backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    zIndex: 10,
-    width: 45,
-    height: 45,
-    borderRadius: 22.5,
-    backgroundColor: '#f2f2f2',
+    width: 40,
+    height: 40,
     justifyContent: 'center',
     alignItems: 'center',
+    marginRight: 10,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 20,
   },
-  backButtonText: {
-    fontSize: 24,
-    color: '#000',
+  backButtonImage: {
+    width: 20,
+    height: 20,
   },
   progressContainer: {
-    paddingHorizontal: 20,
-    marginTop: 60,
+    flex: 1,
   },
   progressBackground: {
     height: 6,

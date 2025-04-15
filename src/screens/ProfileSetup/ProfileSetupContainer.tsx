@@ -8,6 +8,10 @@ import { imageConstants } from '../../constants/imageConstants';
 // Replace individual image imports with constants
 const appLogo = imageConstants.SplashScreenLogo;
 const weight = imageConstants.Weight;
+const pescatarian = imageConstants.pescatarian;
+const vegetarian = imageConstants.vegetarian;
+const vegan = imageConstants.vegan;
+const fish = imageConstants.fish;
 const weightTransition = imageConstants.WeightTransition;
 const lowFrequencyIcon = imageConstants.LowFrequencyIcon;
 const medFrequencyIcon = imageConstants.MedFrequencyIcon;
@@ -156,10 +160,10 @@ const ProfileSetupContainer = () => {
   ];
 
   const dietOptions: OptionItem[] = [
-    { id: '1', label: 'Classic', value: 'classic' },
-    { id: '2', label: 'Pescatarian', value: 'pescatarian' },
-    { id: '3', label: 'Vegetarian', value: 'vegetarian' },
-    { id: '4', label: 'Vegan', value: 'vegan' },
+    { id: '1', label: 'Classic', value: 'classic', icon: fish},
+    { id: '2', label: 'Pescatarian', value: 'pescatarian', icon: pescatarian },
+    { id: '3', label: 'Vegetarian', value: 'vegetarian', icon: vegetarian },
+    { id: '4', label: 'Vegan', value: 'vegan', icon: vegan },
   ];
 
   const accomplishmentOptions: OptionItem[] = [
@@ -256,8 +260,10 @@ const ProfileSetupContainer = () => {
       case 6:
         return {
           title: "Do you follow a specific diet?",
+
+
           subtitle: "We'll tailor your meal recommendations accordingly",
-          contentType: ContentType.OPTIONS,
+          contentType: ContentType.CIRCULAR_ICON_OPTIONS,
           options: dietOptions,
           selectedOption: selectedDiet,
           onSelectOption: handleSelectDiet,

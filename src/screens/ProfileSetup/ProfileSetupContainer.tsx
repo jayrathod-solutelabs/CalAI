@@ -3,25 +3,21 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import FormScreen, { ContentType, OptionItem } from '../../components/FormScreen';
 import { useProfile } from '../../contexts/ProfileContext';
+import { imageConstants } from '../../constants/imageConstants';
 
-// Import app logo and icons
-// Note: These are placeholders, you'll need to add the actual image files
-const appLogo = require('../../assets/images/splash_screen_logo.png');
-// Icons for frequency options
-const lowFrequencyIcon = require('../../assets/images/frequency_low.png');
-const medFrequencyIcon = require('../../assets/images/frequency_medium.png');
-const highFrequencyIcon = require('../../assets/images/frequency_high.png');
-// Icons for previous apps options
-const thumbsUpIcon = require('../../assets/images/thumbs_up.png');
-const thumbsDownIcon = require('../../assets/images/thumbs_down.png');
-// Icons for activity level
-const activityLowIcon = require('../../assets/images/frequency_low.png');
-const activityMediumIcon = require('../../assets/images/frequency_medium.png');
-const activityHighIcon = require('../../assets/images/frequency_high.png');
-// Icons for meal preferences
-const mealThreeIcon = require('../../assets/images/meal_three.png');
-const mealFourIcon = require('../../assets/images/meal_four.png');
-const mealFiveIcon = require('../../assets/images/meal_five.png');
+// Replace individual image imports with constants
+const appLogo = imageConstants.SplashScreenLogo;
+const lowFrequencyIcon = imageConstants.LowFrequencyIcon;
+const medFrequencyIcon = imageConstants.MedFrequencyIcon;
+const highFrequencyIcon = imageConstants.HighFrequencyIcon;
+const thumbsUpIcon = imageConstants.ThumbsUpIcon;
+const thumbsDownIcon = imageConstants.ThumbsDownIcon;
+const activityLowIcon = imageConstants.ActivityLowIcon;
+const activityMediumIcon = imageConstants.ActivityMediumIcon;
+const activityHighIcon = imageConstants.ActivityHighIcon;
+const mealThreeIcon = imageConstants.MealThreeIcon;
+const mealFourIcon = imageConstants.MealFourIcon;
+const mealFiveIcon = imageConstants.MealFiveIcon;
 
 // Define content props type
 interface ContentProps {

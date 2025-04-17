@@ -19,6 +19,7 @@ export enum ContentType {
   CIRCULAR_ICON_SUBTEXT_OPTIONS = 'circular_icon_subtext_options',
   HIGHLIGHT_TEXT = 'highlight_text',
   THANK_YOU = 'thank_you',
+  PLAN_READY = 'plan_ready', 
 }
 
 // Option item interface
@@ -369,7 +370,7 @@ const FormScreen: React.FC<FormScreenProps> = ({
               { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
             ]}
           >
-            <ConfettiEffect />
+            {/* <ConfettiEffect /> */}
             <View style={styles.checkmarkContainer}>
               <View style={styles.checkmarkIconWrapper}>
                 <Image 
@@ -387,6 +388,43 @@ const FormScreen: React.FC<FormScreenProps> = ({
             </Text>
           </Animated.View>
         );
+
+        case ContentType.PLAN_READY:
+  return (
+    <Animated.View 
+      style={[
+        styles.planReadyContainer, 
+        { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+      ]}
+    >
+      <View style={styles.checkmarkContainer}>
+        <View style={styles.checkmarkIconWrapper}>
+          <Image 
+            source={imageConstants.ThumbsUpIcon} 
+            style={styles.checkmarkIcon} 
+          />
+        </View>
+      </View>
+      
+      <Text style={styles.congratulationsTitle}>
+        Congratulations
+      </Text>
+      <Text style={styles.planReadySubtitle}>
+        your custom plan is ready!
+      </Text>
+      
+      <View style={styles.weightTargetContainer}>
+        <Text style={styles.weightTargetLabel}>
+          You should Lose:
+        </Text>
+        <View style={styles.weightTargetPill}>
+          <Text style={styles.weightTargetValue}>
+            10.0lb by May 27
+          </Text>
+        </View>
+      </View>
+    </Animated.View>
+  );
 
       default:
         return null;
@@ -561,6 +599,49 @@ const styles = StyleSheet.create({
   // Circular options styles
   circularOptionsContainer: {
     width: '100%',
+  },
+    
+  planReadyContainer: {
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+  congratulationsTitle: {
+    fontFamily: fonts.DMSansBold,
+    fontSize: 32,
+    textAlign: 'center',
+    color: colorsConstants.primary,
+    marginBottom: 4,
+  },
+  planReadySubtitle: {
+    fontFamily: fonts.DMSansMedium,
+    fontSize: 32,
+    textAlign: 'center',
+    color: colorsConstants.ActiveDot,
+    marginBottom: 32,
+  },
+  weightTargetContainer: {
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  weightTargetLabel: {
+    fontFamily: fonts.DMSansMedium,
+    fontSize: 24,
+    color: colorsConstants.primary,
+    marginBottom: 16,
+  },
+  weightTargetPill: {
+    backgroundColor: colorsConstants.ActiveDot,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 24,
+  },
+  weightTargetValue: {
+    fontFamily: fonts.DMSansBold,
+    fontSize: 22,
+    color: colorsConstants.primary,
   },
   circularOptionItem: {
     width: '100%',

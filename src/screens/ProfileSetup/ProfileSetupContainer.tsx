@@ -48,7 +48,7 @@ const ProfileSetupContainer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { profileData, updateProfile } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
-  const TOTAL_STEPS = 13;
+  const TOTAL_STEPS = 14;
 
   // State for each step
   const [selectedGender, setSelectedGender] = useState<string | undefined>(profileData.gender);
@@ -198,22 +198,23 @@ const ProfileSetupContainer = () => {
 
   // Check if next button should be disabled
   const isNextDisabled = () => {
-    switch (currentStep) {
-      case 1: return !selectedGender;
-      case 2: return !selectedFrequency;
-      case 3: return !selectedPreviousApps;
-      case 4: return false; // Image screen
-      case 5: return !selectedGoal;
-      case 6: return !selectedDiet;
-      case 7: return !selectedAccomplishment;
-      case 8: return !selectedActivity;
-      case 9: return !selectedMealPreference;
-      case 10: return !selectedTrackingFrequency;
-      case 11: return false; // Image screen
-      case 12: return false; // Highlight text screen
-      case 13: return false; // Thank you screen
-      default: return false;
-    }
+    // switch (currentStep) {
+    //   case 1: return !selectedGender;
+    //   case 2: return !selectedFrequency;
+    //   case 3: return !selectedPreviousApps;
+    //   case 4: return false; // Image screen
+    //   case 5: return !selectedGoal;
+    //   case 6: return !selectedDiet;
+    //   case 7: return !selectedAccomplishment;
+    //   case 8: return !selectedActivity;
+    //   case 9: return !selectedMealPreference;
+    //   case 10: return !selectedTrackingFrequency;
+    //   case 11: return false; // Image screen
+    //   case 12: return false; // Highlight text screen
+    //   case 13: return false; // Thank you screen
+    //   default: return false;
+    // }
+    return false;
   };
 
   // Render the content based on current step
@@ -329,6 +330,13 @@ const ProfileSetupContainer = () => {
           subtitle: "",
           contentType: ContentType.THANK_YOU,
         };
+      case 14:
+      return {
+        title: "Congratulations your custom plan is ready!",
+        subtitle: "You should Lose:",
+        contentType: ContentType.PLAN_READY,
+        highlightText: "10.0 lbs by May 27",
+      };
       default:
         return {
           title: "",
@@ -340,8 +348,8 @@ const ProfileSetupContainer = () => {
   };
 
   const stepContent = renderStepContent();
-  const nextButtonTitle = currentStep === TOTAL_STEPS ? "Create my plan" : "Next";
-
+  const nextButtonTitle = currentStep === TOTAL_STEPS ? "Let's get started!" : 
+  (currentStep === TOTAL_STEPS - 1 ? "Create my plan" : "Next");
   return (
     <FormScreen
       key={`step-${currentStep}`}

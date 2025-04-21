@@ -332,10 +332,10 @@ const ProfileSetupContainer = () => {
         };
       case 14:
       return {
-        title: "Congratulations your custom plan is ready!",
-        subtitle: "You should Lose:",
+        title: "",
+        subtitle: "",
         contentType: ContentType.PLAN_READY,
-        highlightText: "10.0 lbs by May 27",
+        highlightText: "",
       };
       default:
         return {

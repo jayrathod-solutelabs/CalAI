@@ -390,42 +390,137 @@ const FormScreen: React.FC<FormScreenProps> = ({
         );
 
         case ContentType.PLAN_READY:
-  return (
-    <Animated.View 
-      style={[
-        styles.planReadyContainer, 
-        { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
-      ]}
-    >
-      <View style={styles.checkmarkContainer}>
-        <View style={styles.checkmarkIconWrapper}>
-          <Image 
-            source={imageConstants.ThumbsUpIcon} 
-            style={styles.checkmarkIcon} 
-          />
-        </View>
-      </View>
-      
-      <Text style={styles.congratulationsTitle}>
-        Congratulations
-      </Text>
-      <Text style={styles.planReadySubtitle}>
-        your custom plan is ready!
-      </Text>
-      
-      <View style={styles.weightTargetContainer}>
-        <Text style={styles.weightTargetLabel}>
-          You should Lose:
-        </Text>
-        <View style={styles.weightTargetPill}>
-          <Text style={styles.weightTargetValue}>
-            10.0lb by May 27
-          </Text>
-        </View>
-      </View>
-    </Animated.View>
-  );
-
+          return (
+            <View style={styles.container}>
+              <Animated.View 
+                style={[
+                  styles.contentContainer, 
+                  { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+                ]}
+              >
+                {/* Checkmark */}
+                <View style={styles.checkmarkContainerNew}>
+                  <View style={styles.checkmark}>
+                    <Text style={styles.checkmarkSymbol}>✓</Text>
+                  </View>
+                </View>
+                
+                {/* Congratulations text */}
+                <Text style={styles.congratulationsTitle}>Congratulations</Text>
+                <Text style={styles.congratulationsTitle}>your custom plan is ready!</Text>
+                
+                {/* Weight target */}
+                <View style={styles.weightTargetContainer}>
+                  <Text style={styles.weightTargetLabel}>You should Lose:</Text>
+                  <View style={styles.weightTargetPill}>
+                    <Text style={styles.weightTargetValue}>10.0 lbs by May 27</Text>
+                  </View>
+                </View>
+        
+                {/* Daily recommendation section */}
+                <View style={styles.recommendationsSectionNew}>
+                  <Text style={styles.recommendationsTitleNew}>Daily Recommendation</Text>
+                  <Text style={styles.recommendationsSubtitle}>You can edit this any time</Text>
+                  
+                  {/* Macros grid */}
+                  <View style={styles.macrosGrid}>
+                    {/* Calories */}
+                    <View style={styles.macroCard}>
+                      <Text style={styles.macroTitle}>Calories</Text>
+                      <View style={styles.progressCircleContainer}>
+                        <View style={styles.progressCircle}>
+                          <Text style={styles.macroValue}>1790</Text>
+                        </View>
+                        <TouchableOpacity style={styles.editButton}>
+                          <Text style={styles.editIcon}>✎</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+        
+                    {/* Carbs */}
+                    <View style={styles.macroCard}>
+                      <Text style={styles.macroTitle}>Carbs</Text>
+                      <View style={styles.progressCircleContainer}>
+                        <View style={styles.progressCircle}>
+                          <Text style={styles.macroValue}>219g</Text>
+                        </View>
+                        <TouchableOpacity style={styles.editButton}>
+                          <Text style={styles.editIcon}>✎</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    
+                    {/* Protein */}
+                    <View style={styles.macroCard}>
+                      <Text style={styles.macroTitle}>Protein</Text>
+                      <View style={styles.progressCircleContainer}>
+                        <View style={styles.progressCircle}>
+                          <Text style={styles.macroValue}>116g</Text>
+                        </View>
+                        <TouchableOpacity style={styles.editButton}>
+                          <Text style={styles.editIcon}>✎</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    
+                    {/* Fats */}
+                    <View style={styles.macroCard}>
+                      <Text style={styles.macroTitle}>Fats</Text>
+                      <View style={styles.progressCircleContainer}>
+                        <View style={styles.progressCircle}>
+                          <Text style={styles.macroValue}>49g</Text>
+                        </View>
+                        <TouchableOpacity style={styles.editButton}>
+                          <Text style={styles.editIcon}>✎</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                  
+                  {/* Health score */}
+                  <View style={styles.healthScoreContainer}>
+                    <View style={styles.healthScoreHeader}>
+                      <View style={styles.healthScoreIcon}>
+                        <Text style={styles.heartIcon}>♥</Text>
+                      </View>
+                      <Text style={styles.healthScoreText}>Health score</Text>
+                    </View>
+                    <Text style={styles.healthScoreValue}>7/10</Text>
+                    <View style={styles.healthScoreBar}>
+                      <View style={[styles.healthScoreFill, { width: '70%' }]} />
+                    </View>
+                  </View>
+                  
+                  {/* Goals section from second image */}
+                  <View style={styles.goalsSection}>
+                    <Text style={styles.goalsSectionTitle}>How to reach your goals:</Text>
+                    
+                    {/* Goal items */}
+                    <View style={styles.goalItem}>
+                      <View style={styles.goalIcon}>
+                        <Text style={styles.goalIconText}>♥⚡</Text>
+                      </View>
+                      <Text style={styles.goalText}>Use health scores to improve your routine</Text>
+                    </View>
+                    
+                    <View style={styles.goalItem}>
+                      <View style={styles.goalIcon}>
+                        <Text style={styles.goalIconText}>🥑</Text>
+                      </View>
+                      <Text style={styles.goalText}>Track your food</Text>
+                    </View>
+                    
+                    <View style={styles.goalItem}>
+                      <View style={styles.goalIcon}>
+                        <Text style={styles.goalIconText}>◯</Text>
+                      </View>
+                      <Text style={styles.goalText}>Follow your daily calorie recommendation</Text>
+                    </View>
+                  </View>
+                </View>
+              </Animated.View>
+            </View>
+          );
       default:
         return null;
     }
@@ -475,7 +570,7 @@ const FormScreen: React.FC<FormScreenProps> = ({
         showsVerticalScrollIndicator={false}
       >
         {/* Title and subtitle - only show for non-THANK_YOU screens */}
-        {contentType !== ContentType.THANK_YOU && contentType !== ContentType.HIGHLIGHT_TEXT && (
+        {contentType !== ContentType.THANK_YOU && contentType !== ContentType.HIGHLIGHT_TEXT && contentType !== ContentType.PLAN_READY && (
           <Animated.View 
             style={[
               styles.headerContainer, 
@@ -490,7 +585,7 @@ const FormScreen: React.FC<FormScreenProps> = ({
         {/* Main content area */}
         <View style={[
           styles.mainContent,
-          (contentType === ContentType.THANK_YOU || contentType === ContentType.HIGHLIGHT_TEXT) && styles.centeredContent
+          (contentType === ContentType.THANK_YOU || contentType === ContentType.HIGHLIGHT_TEXT || contentType === ContentType.PLAN_READY) && styles.centeredContent
         ]}>
           {renderContent()}
         </View>
@@ -609,11 +704,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   congratulationsTitle: {
-    fontFamily: fonts.DMSansBold,
-    fontSize: 32,
+    fontSize: 28,
     textAlign: 'center',
-    color: colorsConstants.primary,
-    marginBottom: 4,
+    color: colorsConstants.onBoardingTitle,
+    fontFamily: fonts.DMSansBold,
+    lineHeight: 42,
   },
   planReadySubtitle: {
     fontFamily: fonts.DMSansMedium,
@@ -624,24 +719,213 @@ const styles = StyleSheet.create({
   },
   weightTargetContainer: {
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 10,
   },
   weightTargetLabel: {
-    fontFamily: fonts.DMSansMedium,
-    fontSize: 24,
-    color: colorsConstants.primary,
+    fontFamily: fonts.DMSansBold,
+    fontSize: 20,
+    color: colorsConstants.onBoardingTitle,
     marginBottom: 16,
   },
   weightTargetPill: {
-    backgroundColor: colorsConstants.ActiveDot,
+    backgroundColor: '#F8F8F8',
     paddingVertical: 12,
+    marginBottom: 16,
     paddingHorizontal: 24,
     borderRadius: 24,
   },
   weightTargetValue: {
     fontFamily: fonts.DMSansBold,
-    fontSize: 22,
-    color: colorsConstants.primary,
+    fontSize: 18,
+    color: colorsConstants.onBoardingTitle,
+  },
+  recommendationsSectionNew: {
+    width: '100%',
+    backgroundColor: '#F8F8F8',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+  },
+  recommendationsTitleNew: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    fontFamily: fonts.DMSansMedium,
+    marginBottom: 2,
+  },
+  recommendationsSubtitleNew: {
+    fontSize: 16,
+    color: '#666666',
+    fontFamily: fonts.DMSansMedium,
+    marginBottom: 24,
+  },
+
+  macrosGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 24,
+  },
+  macroCard: {
+    width: '48%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  progressCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 8,
+    borderColor: '#E5E5E5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  editButton: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    backgroundColor: '#FFFFFF',
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  editIcon: {
+    fontSize: 16,
+  },
+  healthScoreContainer: {
+    width: '100%',
+    marginBottom: 24,
+  },
+  healthScoreHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  healthScoreIcon: {
+    marginRight: 8,
+  },
+  healthScoreText: {
+    fontSize: 16,
+  },
+  healthScoreValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    alignSelf: 'flex-end',
+    marginBottom: 8,
+  },
+  goalsSection: {
+    width: '100%',
+  },
+  goalsSectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  goalItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+  },
+  recommendationsSubtitle: {
+    fontSize: 16,
+    color: '#666666',
+    marginBottom: 24,
+  },
+  goalIcon: {
+    marginRight: 12,
+  },
+  progressBar: {
+    height: 4,
+    backgroundColor: '#E5E5E5',
+    marginTop: 8,
+    marginHorizontal: 16,
+  },
+  progressFillNew: {
+    height: '100%',
+    width: '95%', // Adjust based on progress
+    backgroundColor: '#000000',
+  },
+  contentContainer: {
+    flex: 1,
+    paddingTop: 24,
+    alignItems: 'center',
+  },
+  checkmarkContainerNew: {
+    marginBottom: 16,
+  },
+  checkmark: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#000000',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkmarkSymbol: {
+    color: '#FFFFFF',
+    fontSize: 32,
+  },
+
+  goalIconText: {
+    fontSize: 16,
+  },
+  goalText: {
+    fontSize: 16,
+    flex: 1,
+  },
+  startButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  startButton: {
+    backgroundColor: '#1A1A1A',
+    borderRadius: 30,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  healthScoreBar: {
+    height: 8,
+    backgroundColor: '#E5E5E5',
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  healthScoreFill: {
+    height: '100%',
+    backgroundColor: '#5CB85C',
+  },
+  heartIcon: {
+    fontSize: 16,
+    color: '#FF6B6B',
+  },
+  macroValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  macroTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    marginBottom: 10,
+  },
+  progressCircleContainer: {
+    position: 'relative',
+    width: '100%',
+    alignItems: 'center',
   },
   circularOptionItem: {
     width: '100%',

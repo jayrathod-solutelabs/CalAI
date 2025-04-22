@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import Svg, { Circle, Path } from 'react-native-svg';
 
 interface MacroCardProps {
   title: string;
@@ -13,52 +14,46 @@ const MacroCard: FC<MacroCardProps> = ({
   title, 
   value, 
   progressColor = '#000000', 
-  progress = 0.5, 
+  progress = 0, 
   onEditPress 
 }) => {
-  // Create the circular progress indicator
-  // We're using multiple Views with borders to create the effect
-  // where the progress always starts from the top (12 o'clock position)
+  // SVG parameters
+  const size = 120;
+  const strokeWidth = 8;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const strokeDashoffset = circumference * (1 - progress);
+  const center = size / 2;
+
   return (
     <View style={styles.macroCard}>
       <Text style={styles.macroTitle}>{title}</Text>
       <View style={styles.progressCircleContainer}>
-        {/* Base circle (light gray) */}
-        <View style={[styles.progressCircle, { borderColor: '#E5E5E5' }]} />
-        
-        {/* Progress arc (colored portion) */}
-        <View 
-          style={[
-            styles.progressArc,
-            { 
-              borderColor: 'transparent',
-              borderTopColor: progressColor,
-              transform: [
-                { rotate: `-${(1 - progress) * 180}deg` },
-                { scaleX: progress > 0.5 ? -1 : 1 }
-              ],
-              opacity: progress > 0 ? 1 : 0,
-              display: progress <= 0 ? 'none' : 'flex',
-            }
-          ]} 
-        />
-        
-        {/* If progress > 0.5, we need a second arc for the right side */}
-        {progress > 0.5 && (
-          <View 
-            style={[
-              styles.progressArc,
-              { 
-                borderColor: 'transparent',
-                borderTopColor: progressColor,
-                transform: [
-                  { rotate: '0deg' },
-                  { scaleX: 1 }
-                ]
-              }
-            ]} 
+        <Svg width={size} height={size}>
+          {/* Background Circle */}
+          <Circle
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke="#E5E5E5"
+            strokeWidth={strokeWidth}
+            fill="transparent"
           />
-        )}
+          
+          {/* Progress Circle */}
+          <Circle
+            cx={center}
+            cy={center}
+            r={radius}
+            stroke={progressColor}
+            strokeWidth={strokeWidth}
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            fill="transparent"
+            transform={`rotate(-90 ${center} ${center})`} // Start from top (12 o'clock)
+          />
+        </Svg>
         
         {/* Center text */}
         <View style={styles.valueContainer}>
@@ -78,13 +73,13 @@ const styles = StyleSheet.create({
   macroCard: {
     width: '48%',
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     alignItems: 'center',
   },
   macroTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '500',
     marginBottom: 12,
     color: '#333333',
@@ -96,23 +91,6 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
   },
-  progressCircle: {
-    position: 'absolute',
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 8,
-  },
-  progressArc: {
-    position: 'absolute',
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    borderWidth: 8,
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: 'transparent',
-  },
   valueContainer: {
     position: 'absolute',
     width: '100%',
@@ -121,7 +99,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   macroValue: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#333333',
   },

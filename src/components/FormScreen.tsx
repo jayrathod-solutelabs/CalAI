@@ -5,6 +5,7 @@ import RoundedButton from './RoundedButton';
 import fonts from '../constants/fontConstants';
 import { imageConstants } from '../constants/imageConstants';
 import ConfettiEffect from './ConfettiEffect';
+import MacroCard from './MacroCard';
 
 const { width } = Dimensions.get('window');
 
@@ -421,61 +422,41 @@ const FormScreen: React.FC<FormScreenProps> = ({
                 <View style={styles.recommendationsSectionNew}>
                   <Text style={styles.recommendationsTitleNew}>Daily Recommendation</Text>
                   <Text style={styles.recommendationsSubtitle}>You can edit this any time</Text>
-                  
-                  {/* Macros grid */}
-                  <View style={styles.macrosGrid}>
-                    {/* Calories */}
-                    <View style={styles.macroCard}>
-                      <Text style={styles.macroTitle}>Calories</Text>
-                      <View style={styles.progressCircleContainer}>
-                        <View style={styles.progressCircle}>
-                          <Text style={styles.macroValue}>1790</Text>
-                        </View>
-                        <TouchableOpacity style={styles.editButton}>
-                          <Text style={styles.editIcon}>✎</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-        
-                    {/* Carbs */}
-                    <View style={styles.macroCard}>
-                      <Text style={styles.macroTitle}>Carbs</Text>
-                      <View style={styles.progressCircleContainer}>
-                        <View style={styles.progressCircle}>
-                          <Text style={styles.macroValue}>219g</Text>
-                        </View>
-                        <TouchableOpacity style={styles.editButton}>
-                          <Text style={styles.editIcon}>✎</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    
-                    {/* Protein */}
-                    <View style={styles.macroCard}>
-                      <Text style={styles.macroTitle}>Protein</Text>
-                      <View style={styles.progressCircleContainer}>
-                        <View style={styles.progressCircle}>
-                          <Text style={styles.macroValue}>116g</Text>
-                        </View>
-                        <TouchableOpacity style={styles.editButton}>
-                          <Text style={styles.editIcon}>✎</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    
-                    {/* Fats */}
-                    <View style={styles.macroCard}>
-                      <Text style={styles.macroTitle}>Fats</Text>
-                      <View style={styles.progressCircleContainer}>
-                        <View style={styles.progressCircle}>
-                          <Text style={styles.macroValue}>49g</Text>
-                        </View>
-                        <TouchableOpacity style={styles.editButton}>
-                          <Text style={styles.editIcon}>✎</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
+
+
+          <View style={styles.content}>
+        <View style={styles.macrosGrid}>
+          <MacroCard 
+            title="Calories" 
+            value="1790" 
+            progressColor="#333333"
+            progress={0.4}
+            onEditPress={handleEditCalories} 
+          />
+          
+          <MacroCard 
+            title="Carbs" 
+            value="219g" 
+            progressColor="#E8A87C"
+            progress={0.75}
+            onEditPress={handleEditCarbs} 
+          />
+          
+          <MacroCard 
+            title="Protein" 
+            value="116g" 
+            progressColor="#E27D60"
+            onEditPress={handleEditProtein}
+          />
+          
+          <MacroCard 
+            title="Fats" 
+            value="49g" 
+            progressColor="#85CDCA"
+            onEditPress={handleEditFats} 
+          />
+        </View>
+      </View>
                   
                   {/* Health score */}
                   <View style={styles.healthScoreContainer}>
@@ -600,7 +581,29 @@ const FormScreen: React.FC<FormScreenProps> = ({
         />
       </View>
     </View>
+
+    
   );
+};
+
+const handleEditCalories = () => {
+  console.log('Edit calories');
+  
+};
+
+const handleEditCarbs = () => {
+  console.log('Edit carbs');
+ 
+};
+
+const handleEditProtein = () => {
+  console.log('Edit protein');
+ 
+};
+
+const handleEditFats = () => {
+  console.log('Edit fats');
+  
 };
 
 const styles = StyleSheet.create({
@@ -630,6 +633,9 @@ const styles = StyleSheet.create({
   },
   progressContainer: {
     flex: 1,
+  },
+  content: {
+    paddingHorizontal: 20,
   },
   progressBackground: {
     height: 6,
@@ -763,7 +769,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 24,
+    marginBottom: 16,
   },
   macroCard: {
     width: '48%',

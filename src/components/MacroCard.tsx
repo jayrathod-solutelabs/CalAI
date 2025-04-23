@@ -1,6 +1,10 @@
 import React, { FC } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Svg, { Circle, Path } from 'react-native-svg';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
+import fonts from '../constants/fontConstants';
+import { imageConstants } from '../constants/imageConstants';
+
+const editPencil = imageConstants.editPencil;
 
 interface MacroCardProps {
   title: string;
@@ -15,7 +19,7 @@ const MacroCard: FC<MacroCardProps> = ({
   value, 
   progressColor = '#000000', 
   progress = 0, 
-  onEditPress 
+  onEditPress
 }) => {
   // SVG parameters
   const size = 120;
@@ -60,9 +64,13 @@ const MacroCard: FC<MacroCardProps> = ({
           <Text style={styles.macroValue}>{value}</Text>
         </View>
         
-        {/* Edit button */}
-        <TouchableOpacity style={styles.editButton} onPress={onEditPress}>
-          <Text style={styles.editIcon}>✎</Text>
+        {/* Edit button - positioned outside the circle */}
+        <TouchableOpacity 
+          style={styles.editButton} 
+          onPress={onEditPress}
+          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+        >
+          <Image source={editPencil} style={styles.editIcon} resizeMode="contain" />
         </TouchableOpacity>
       </View>
     </View>
@@ -81,6 +89,7 @@ const styles = StyleSheet.create({
   macroTitle: {
     fontSize: 18,
     fontWeight: '500',
+    fontFamily: fonts.DMSansMedium,
     marginBottom: 12,
     color: '#333333',
   },
@@ -105,23 +114,14 @@ const styles = StyleSheet.create({
   },
   editButton: {
     position: 'absolute',
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#FFFFFF',
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+    right: -5,
+    bottom: -5,
+    zIndex: 10,
+    // Removing the circular background to match screenshot
   },
   editIcon: {
-    fontSize: 16,
-    color: '#333333',
+    width: 20,
+    height: 20,
   },
 });
 

@@ -2,6 +2,7 @@ export const imageConstants = {
     SplashScreenLogo : require('../assets/images/splash_screen_logo.png'),
     Weight : require('../assets/images/weight.jpg'),
     pescatarian : require('../assets/images/pescatarian.png'),
+    editPencil : require('../assets/images/edit_pencing.png'),
     vegan : require('../assets/images/vegan.png'),
     vegetarian : require('../assets/images/vegetarian.png'),
     orange : require('../assets/images/orange.png'),

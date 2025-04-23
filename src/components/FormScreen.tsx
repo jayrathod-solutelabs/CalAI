@@ -640,7 +640,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 0,
   },
   progressBackground: {
     height: 6,
@@ -759,7 +759,6 @@ const styles = StyleSheet.create({
   },
   recommendationsTitleNew: {
     fontSize: 20,
-    fontWeight: 'bold',
     fontFamily: fonts.DMSansMedium,
     marginBottom: 2,
   },

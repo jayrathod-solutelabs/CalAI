@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Screens
 import SplashScreen from '../screens/Splash/SplashScreen';
 import HomeScreen from '../screens/Home/HomeScreen';
-import ProfileSetupContainer from '../screens/ProfileSetup/ProfileSetupContainer';
 import OnboardingScreen from '../screens/OnBoarding/OnBoardingScreen';
-import { ProfileProvider } from '../contexts/ProfileContext';
 import MacroEditScreen from '../screens/ProfileSetup/MacroEditScreen';
+import ProfileSetupContainer from '../screens/ProfileSetup/ProfileSetupContainer';
 
 // Define the types for navigation
 export type RootStackParamList = {
-  ProfileSetup: undefined;
+  Steps: undefined;
   Home: undefined;
   MacroEdit: {
     title: string;
@@ -29,15 +29,41 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export default function StackNavigation() {
   const [isSplash, setIsSplash] = useState(true);
   const [isOnboarding, setIsOnboarding] = useState(true);
+  const [isSetupSkipped, setIsSetupSkipped] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-        setIsSplash(false);
-    }, 1000);
+    const checkUserStatus = async () => {
+      try {
+        const onboardingCompleted = await AsyncStorage.getItem('onboarding_completed');
+        const setupSkipped = await AsyncStorage.getItem('profile_setup_skipped');
+        
+        if (onboardingCompleted === 'true') {
+          setIsOnboarding(false);
+        }
+        
+        if (setupSkipped === 'true') {
+          setIsSetupSkipped(true);
+        }
+      } catch (error) {
+        console.error('Error checking storage:', error);
+      } finally {
+        // Always hide splash after checking, with slight delay for visibility
+        setTimeout(() => {
+          setIsSplash(false);
+        }, 1000);
+      }
+    };
+    
+    checkUserStatus();
   }, []);
 
   const handleOnboardingComplete = () => {
-    setIsOnboarding(false);
+    AsyncStorage.setItem('onboarding_completed', 'true')
+      .then(() => setIsOnboarding(false))
+      .catch(error => {
+        console.error('Error saving onboarding status:', error);
+        setIsOnboarding(false);
+      });
   };
 
   // Create custom onboarding slides
@@ -48,18 +74,7 @@ export default function StackNavigation() {
       subtitle: "Just snap a quick photo of your meal and we'll do the rest",
       overlay: true,
     },
-    {
-      image: require('../assets/images/food_image.jpg'),
-      title: 'Track your fitness progress',
-      subtitle: 'Set goals and monitor your improvements over time',
-      overlay: true,
-    },
-    {
-      image: require('../assets/images/food_image.jpg'),
-      title: 'Detailed analytics',
-      subtitle: 'Get insights into your nutrition and exercise patterns',
-      overlay: true,
-    }
+    // Other slides...
   ];
 
   return (
@@ -72,19 +87,17 @@ export default function StackNavigation() {
           onComplete={handleOnboardingComplete}
         />
       ) : (
-        <ProfileProvider>
-          <Stack.Navigator
-            initialRouteName="ProfileSetup"
-            screenOptions={{
-              headerShown: false,
-              animation: 'fade',
-            }}
-          >
-            <Stack.Screen name="ProfileSetup" component={ProfileSetupContainer} />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="MacroEdit" component={MacroEditScreen} />
-          </Stack.Navigator>
-        </ProfileProvider>
+        <Stack.Navigator
+          initialRouteName={isSetupSkipped ? "Home" : "Steps"}
+          screenOptions={{
+            headerShown: false,
+            animation: 'fade',
+          }}
+        >
+          <Stack.Screen name="Steps" component={ProfileSetupContainer} />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="MacroEdit" component={MacroEditScreen} />
+        </Stack.Navigator>
       )}
     </NavigationContainer>
   );

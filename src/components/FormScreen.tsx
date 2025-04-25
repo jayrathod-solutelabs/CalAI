@@ -8,6 +8,11 @@ import ConfettiEffect from './ConfettiEffect';
 import MacroCard from './MacroCard';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/StackNavigation';
+
 const { width } = Dimensions.get('window');
 
 
@@ -79,6 +84,10 @@ const FormScreen: React.FC<FormScreenProps> = ({
   // Animation values
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const translateXAnim = useRef(new Animated.Value(0)).current;
+
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+
   
   // Store previous step to detect changes
   const prevStepRef = useRef<number>(currentStep);
@@ -390,7 +399,18 @@ const FormScreen: React.FC<FormScreenProps> = ({
         
         <TouchableOpacity 
           style={styles.skipButton}
-          onPress={() => console.log('Skip pressed')}
+          onPress={() => {
+            // Save that user skipped account creation
+            AsyncStorage.setItem('profile_setup_skipped', 'true')
+              .then(() => {
+                // Navigate to home screen
+                navigation.replace('Home');
+              })
+              .catch(error => {
+                console.error('Error saving skip status:', error);
+                navigation.replace('Home');
+              });
+          }}
           activeOpacity={0.7}
         >
           <Text style={styles.skipButtonText}>Skip</Text>

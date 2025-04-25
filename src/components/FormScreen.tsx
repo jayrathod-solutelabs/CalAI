@@ -477,15 +477,17 @@ const FormScreen: React.FC<FormScreenProps> = ({
                       <View style={[styles.healthScoreFill, { width: '70%' }]} />
                     </View>
                   </View>
-                  
-                  {/* Goals section from second image */}
+
+                </View>
+                <View style={styles.recommendationsSectionNew}>
+                                      {/* Goals section from second image */}
                   <View style={styles.goalsSection}>
                     <Text style={styles.goalsSectionTitle}>How to reach your goals:</Text>
                     
                     {/* Goal items */}
                     <View style={styles.goalItem}>
                       <View style={styles.goalIcon}>
-                        <Text style={styles.goalIconText}>♥⚡</Text>
+                        <Text style={styles.goalIconText}>♥</Text>
                       </View>
                       <Text style={styles.goalText}>Use health scores to improve your routine</Text>
                     </View>
@@ -504,7 +506,8 @@ const FormScreen: React.FC<FormScreenProps> = ({
                       <Text style={styles.goalText}>Follow your daily calorie recommendation</Text>
                     </View>
                   </View>
-                </View>
+                  </View>
+                  
               </Animated.View>
             </View>
           );
@@ -737,11 +740,11 @@ const styles = StyleSheet.create({
     fontFamily: fonts.DMSansBold,
     fontSize: 20,
     color: colorsConstants.onBoardingTitle,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   weightTargetPill: {
     backgroundColor: '#F8F8F8',
-    paddingVertical: 12,
+    paddingVertical: 8,
     marginBottom: 16,
     paddingHorizontal: 24,
     borderRadius: 24,
@@ -760,13 +763,14 @@ const styles = StyleSheet.create({
   },
   recommendationsTitleNew: {
     fontSize: 20,
-    fontFamily: fonts.DMSansMedium,
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
     marginBottom: 2,
   },
   recommendationsSubtitleNew: {
     fontSize: 16,
-    color: '#666666',
     fontFamily: fonts.DMSansMedium,
+    color: colorsConstants.onBoardingSubtitle,
     marginBottom: 24,
   },
 
@@ -814,18 +818,19 @@ const styles = StyleSheet.create({
   },
   healthScoreContainer: {
     width: '100%',
-    marginBottom: 24,
+    marginBottom: 6,
   },
   healthScoreHeader: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
+    alignItems: 'center'
   },
   healthScoreIcon: {
     marginRight: 8,
   },
   healthScoreText: {
-    fontSize: 16,
+    fontSize: 18,
+    fontFamily: fonts.DMSansMedium,
+    color: colorsConstants.onBoardingSubtitle,
   },
   healthScoreValue: {
     fontSize: 16,
@@ -838,7 +843,8 @@ const styles = StyleSheet.create({
   },
   goalsSectionTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
     marginBottom: 16,
   },
   goalItem: {
@@ -895,6 +901,9 @@ const styles = StyleSheet.create({
   goalText: {
     fontSize: 16,
     flex: 1,
+    fontFamily: fonts.DMSansMedium,
+    marginVertical: 8,
+    color: colorsConstants.onBoardingSubtitle,
   },
   startButtonText: {
     color: '#FFFFFF',
@@ -911,7 +920,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   healthScoreBar: {
-    height: 8,
+    height: 6,
     backgroundColor: '#E5E5E5',
     borderRadius: 4,
     overflow: 'hidden',

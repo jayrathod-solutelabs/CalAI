@@ -29,8 +29,8 @@ const MacroCard: FC<MacroCardProps> = ({
   const navigation = useNavigation() as any;
   
   // SVG parameters
-  const size = 120;
-  const strokeWidth = 8;
+  const size = 110;
+  const strokeWidth = 4;
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference * (1 - progress);

@@ -426,36 +426,37 @@ const FormScreen: React.FC<FormScreenProps> = ({
 
           <View style={styles.content}>
           <View style={styles.macrosGrid}>
-  <MacroCard 
-    title="Calories" 
-    value="1790" 
-    progressColor="#333333"
-    progress={0.1}  // Adjust this value to match the progress shown in the screenshot
-    onEditPress={handleEditCalories} 
-  />
+    <MacroCard 
+      title="Calories" 
+      value="1790" 
+      progressColor="#333333"
+      progress={0.1}
+      icon={imageConstants.caleriesIcon}
+      unit="cal"
+    />
   
   <MacroCard 
     title="Carbs" 
     value="219g" 
     progressColor="#E8A87C"
-    progress={0.6}  // Adjust this value to match the progress shown in the screenshot
-    onEditPress={handleEditCarbs} 
+    progress={0.6}
+    icon={imageConstants.carbsIcon}
   />
   
   <MacroCard 
     title="Protein" 
     value="116g" 
     progressColor="#E27D60"
-    progress={0.3}  // Adjust this value to match the progress shown in the screenshot
-    onEditPress={handleEditProtein}
+    progress={0.3}
+    icon={imageConstants.proteinIcon}
   />
   
   <MacroCard 
     title="Fats" 
     value="49g" 
     progressColor="#85CDCA"
-    progress={0.8}  // Adjust this value to match the progress shown in the screenshot
-    onEditPress={handleEditFats} 
+    progress={0.8}
+    icon={imageConstants.fatIcon}
   />
 </View>
 

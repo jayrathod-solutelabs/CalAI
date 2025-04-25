@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Svg, { Circle } from 'react-native-svg';
 import fonts from '../constants/fontConstants';
 import { imageConstants } from '../constants/imageConstants';
@@ -11,7 +12,9 @@ interface MacroCardProps {
   value: string | number;
   progressColor?: string;
   progress?: number;
-  onEditPress: () => void;
+  onEditPress?: () => void;
+  icon?: any;
+  unit?: string;
 }
 
 const MacroCard: FC<MacroCardProps> = ({ 
@@ -19,8 +22,12 @@ const MacroCard: FC<MacroCardProps> = ({
   value, 
   progressColor = '#000000', 
   progress = 0, 
-  onEditPress
+  onEditPress,
+  icon,
+  unit = ''
 }) => {
+  const navigation = useNavigation() as any;
+  
   // SVG parameters
   const size = 120;
   const strokeWidth = 8;
@@ -28,6 +35,23 @@ const MacroCard: FC<MacroCardProps> = ({
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference * (1 - progress);
   const center = size / 2;
+
+  // Handle edit press with navigation
+  const handleEditPress = () => {
+    if (onEditPress) {
+      onEditPress();
+    } else {
+      // Navigate to MacroEditScreen with appropriate params
+      navigation.navigate('MacroEdit', {
+        title,
+        value,
+        progressColor,
+        progress,
+        icon,
+        unit
+      });
+    }
+  };
 
   return (
     <View style={styles.macroCard}>
@@ -43,7 +67,7 @@ const MacroCard: FC<MacroCardProps> = ({
             strokeWidth={strokeWidth}
             fill="transparent"
           />
-          
+
           {/* Progress Circle */}
           <Circle
             cx={center}
@@ -58,16 +82,16 @@ const MacroCard: FC<MacroCardProps> = ({
             transform={`rotate(-90 ${center} ${center})`} // Start from top (12 o'clock)
           />
         </Svg>
-        
+
         {/* Center text */}
         <View style={styles.valueContainer}>
           <Text style={styles.macroValue}>{value}</Text>
         </View>
-        
+
         {/* Edit button - positioned outside the circle */}
         <TouchableOpacity 
           style={styles.editButton} 
-          onPress={onEditPress}
+          onPress={handleEditPress}
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
         >
           <Image source={editPencil} style={styles.editIcon} resizeMode="contain" />
@@ -106,6 +130,21 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+  },
+  iconContainer: {
+    width: 22,
+    height: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F8F8F8',
+    borderRadius: 11,
+    marginRight: 4,
+  },
+  macroIcon: {
+    width: 12,
+    height: 12,
+    tintColor: '#333333',
   },
   macroValue: {
     fontSize: 22,
@@ -117,7 +156,6 @@ const styles = StyleSheet.create({
     right: -5,
     bottom: -5,
     zIndex: 10,
-    // Removing the circular background to match screenshot
   },
   editIcon: {
     width: 20,

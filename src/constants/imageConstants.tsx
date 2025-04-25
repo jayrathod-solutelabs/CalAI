@@ -1,6 +1,10 @@
 export const imageConstants = {
     SplashScreenLogo : require('../assets/images/splash_screen_logo.png'),
     Weight : require('../assets/images/weight.jpg'),
+    caleriesIcon : require('../assets/images/calories_icon.png'),
+    proteinIcon : require('../assets/images/protein_icon.png'),
+    carbsIcon : require('../assets/images/carbs_icon.png'),
+    fatIcon : require('../assets/images/fats_icon.png'),
     pescatarian : require('../assets/images/pescatarian.png'),
     editPencil : require('../assets/images/edit_pencing.png'),
     vegan : require('../assets/images/vegan.png'),

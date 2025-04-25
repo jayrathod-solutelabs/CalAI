@@ -8,13 +8,28 @@ import HomeScreen from '../screens/Home/HomeScreen';
 import ProfileSetupContainer from '../screens/ProfileSetup/ProfileSetupContainer';
 import OnboardingScreen from '../screens/OnBoarding/OnBoardingScreen';
 import { ProfileProvider } from '../contexts/ProfileContext';
+import MacroEditScreen from '../screens/ProfileSetup/MacroEditScreen';
 
-const Stack = createNativeStackNavigator();
+// Define the types for navigation
+export type RootStackParamList = {
+  ProfileSetup: undefined;
+  Home: undefined;
+  MacroEdit: {
+    title: string;
+    value: string | number;
+    progressColor: string;
+    progress: number;
+    icon?: any;
+    unit?: string;
+  };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function StackNavigation() {
   const [isSplash, setIsSplash] = useState(true);
   const [isOnboarding, setIsOnboarding] = useState(true);
-  
+
   useEffect(() => {
     setTimeout(() => {
         setIsSplash(false);
@@ -67,6 +82,7 @@ export default function StackNavigation() {
           >
             <Stack.Screen name="ProfileSetup" component={ProfileSetupContainer} />
             <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="MacroEdit" component={MacroEditScreen} />
           </Stack.Navigator>
         </ProfileProvider>
       )}

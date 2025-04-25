@@ -48,7 +48,7 @@ const ProfileSetupContainer = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const { profileData, updateProfile } = useProfile();
   const [currentStep, setCurrentStep] = useState(1);
-  const TOTAL_STEPS = 14;
+  const TOTAL_STEPS = 15;
 
   // State for each step
   const [selectedGender, setSelectedGender] = useState<string | undefined>(profileData.gender);
@@ -337,6 +337,13 @@ const ProfileSetupContainer = () => {
         contentType: ContentType.PLAN_READY,
         highlightText: "",
       };
+      case 15:
+        return {
+          title: "Create an account",
+          subtitle: "",
+          contentType: ContentType.CREATE_AN_ACCOUNT,
+          imageAlt: "Cal AI Logo",
+        };
       default:
         return {
           title: "",

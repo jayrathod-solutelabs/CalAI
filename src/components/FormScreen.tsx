@@ -6,6 +6,7 @@ import fonts from '../constants/fontConstants';
 import { imageConstants } from '../constants/imageConstants';
 import ConfettiEffect from './ConfettiEffect';
 import MacroCard from './MacroCard';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const { width } = Dimensions.get('window');
 
@@ -20,7 +21,8 @@ export enum ContentType {
   CIRCULAR_ICON_SUBTEXT_OPTIONS = 'circular_icon_subtext_options',
   HIGHLIGHT_TEXT = 'highlight_text',
   THANK_YOU = 'thank_you',
-  PLAN_READY = 'plan_ready', 
+  PLAN_READY = 'plan_ready',
+  CREATE_AN_ACCOUNT = 'create_an_account',
 }
 
 // Option item interface
@@ -362,6 +364,41 @@ const FormScreen: React.FC<FormScreenProps> = ({
             </Text>
           </Animated.View>
         );
+
+      
+      
+      case ContentType.CREATE_AN_ACCOUNT:
+        return (
+          <Animated.View 
+            style={[
+              styles.createAccountContainer, 
+              { opacity: fadeAnim, transform: [{ translateX: translateXAnim }] }
+            ]}
+          >
+            <View style={styles.accountOptionsContainer}>
+        <TouchableOpacity 
+          style={styles.googleSignInButton}
+          onPress={() => console.log('Google sign in pressed')}
+          activeOpacity={0.7}
+        >
+          <Image 
+            source={{ uri: 'https://developers.google.com/identity/images/g-logo.png' }} 
+            style={styles.googleIcon} 
+          />
+          <Text style={styles.googleButtonText}>Sign in with Google</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.skipButton}
+          onPress={() => console.log('Skip pressed')}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.skipButtonText}>Skip</Text>
+        </TouchableOpacity>
+      </View>
+          </Animated.View>
+        );
+
         
       case ContentType.THANK_YOU:
         return (
@@ -511,6 +548,7 @@ const FormScreen: React.FC<FormScreenProps> = ({
               </Animated.View>
             </View>
           );
+          
       default:
         return null;
     }
@@ -582,13 +620,15 @@ const FormScreen: React.FC<FormScreenProps> = ({
       </ScrollView>
       
       {/* Next button */}
-      <View style={styles.buttonContainer}>
-        <RoundedButton
-          title={contentType === ContentType.THANK_YOU ? "Create my plan" : nextButtonTitle}
-          onPress={handleNextPress}
-          disabled={nextDisabled}
-        />
-      </View>
+      {contentType !== ContentType.CREATE_AN_ACCOUNT && (
+  <View style={styles.buttonContainer}>
+    <RoundedButton
+      title={contentType === ContentType.THANK_YOU ? "Create my plan" : nextButtonTitle}
+      onPress={handleNextPress}
+      disabled={nextDisabled}
+    />
+  </View>
+)}
     </View>
 
     
@@ -1100,6 +1140,58 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  createAccountContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  createAccountTitle: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#000',
+    textAlign: 'left',
+    alignSelf: 'flex-start',
+    marginTop: 24,
+    marginBottom: 40,
+    fontFamily: 'System',
+  },
+  accountOptionsContainer: {
+    width: '100%',
+    alignItems: 'center',
+  },
+  googleSignInButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 40,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#1c1b23',
+    marginBottom: 24,
+  },
+  googleIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 12,
+  },
+  googleButtonText: {
+    fontSize: 16,
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
+  },
+  skipButton: {
+    padding: 12,
+  },
+  skipButtonText: {
+    fontSize: 16,
+    color: '#6B6B6B',
+    fontWeight: '500',
   },
 });
 

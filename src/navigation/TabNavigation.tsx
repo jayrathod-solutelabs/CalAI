@@ -2,6 +2,10 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAppleAlt, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faChartBar, faGear } from '@fortawesome/free-solid-svg-icons';
+
 
 // Components
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -31,19 +35,19 @@ const TabNavigation = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName: string;
-
+            let icon;
+      
             if (route.name === 'Home') {
-              iconName = focused ? 'home' : 'home-outline';
+              icon = faHome;
             } else if (route.name === 'Analytics') {
-              iconName = focused ? 'analytics' : 'analytics-outline';
+              icon = faChartBar;
             } else if (route.name === 'Settings') {
-              iconName = focused ? 'settings' : 'settings-outline';
+              icon = faGear;
             } else {
-              iconName = 'help-circle-outline';
+              icon = faGear;
             }
-
-            return <Ionicons name={iconName} size={24} color={color} />;
+      
+            return <FontAwesomeIcon icon={icon} size={size} color={color} />;
           },
           tabBarActiveTintColor: 'black',
           tabBarInactiveTintColor: 'gray',

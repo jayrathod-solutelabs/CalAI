@@ -3,6 +3,12 @@ import { FontAwesome } from '@expo/vector-icons';
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { faAppleAlt, faXmark } from '@fortawesome/free-solid-svg-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import fonts from '../../constants/fontConstants';
+import { colorsConstants } from '../../constants/colorsConstants';
+
 
 const HomeScreen = () => {
   // Week days
@@ -14,12 +20,11 @@ const HomeScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.logoContainer}>
-          <Ionicons name="apple1" size={24} color="black" />
+        <FontAwesomeIcon icon={faAppleAlt} size={24} color="black" />
           <Text style={styles.logoText}>Cal AI</Text>
         </View>
         <View style={styles.streakContainer}>
-          {/* <FontAwesome icon="apple" size={24} color="orange" /> */}
-          <Text style={styles.streakText}>0</Text>
+          <Text style={styles.streakText}>🔥 0</Text>
         </View>
       </View>
 
@@ -123,8 +128,11 @@ const styles = StyleSheet.create({
   },
   logoText: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontFamily: fonts.DMSansBold,
+    color : colorsConstants.onBoardingTitle,
     marginLeft: 8,
+    marginTop: 2,
+    
   },
   streakContainer: {
     flexDirection: 'row',
@@ -137,7 +145,6 @@ const styles = StyleSheet.create({
   streakText: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginLeft: 5,
   },
   scrollView: {
     flex: 1,
@@ -171,10 +178,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#888',
+    fontFamily: fonts.DMSansMedium,
   },
   dateText: {
     fontSize: 16,
     fontWeight: '500',
+    fontFamily: fonts.DMSansMedium,
   },
   dateTextActive: {
     fontWeight: 'bold',
@@ -193,11 +202,13 @@ const styles = StyleSheet.create({
   },
   caloriesNumber: {
     fontSize: 48,
-    fontWeight: 'bold',
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
   },
   caloriesLabel: {
-    fontSize: 18,
-    color: '#666',
+    fontSize: 16,
+    color: colorsConstants.onBoardingSubtitle,
+    fontFamily: fonts.DMSansRegular,
   },
   circleContainer: {
     width: 100,
@@ -226,16 +237,18 @@ const styles = StyleSheet.create({
     padding: 15,
     marginHorizontal: 5,
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     height: 150,
   },
   macroValue: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
   },
   macroLabel: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 12,
+    color: colorsConstants.onBoardingSubtitle,
+    fontFamily: fonts.DMSansRegular,
   },
   macroIconCircle: {
     width: 50,
@@ -244,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
     alignSelf: 'center',
   },
   paginationDots: {
@@ -272,8 +285,9 @@ const styles = StyleSheet.create({
     paddingBottom: 100, // Extra padding at bottom to account for tab bar
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
     marginBottom: 20,
   },
   emptyStateContainer: {
@@ -283,14 +297,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyStateText: {
-    fontSize: 18,
-    fontWeight: '500',
+    fontSize: 16,
+    color: colorsConstants.onBoardingTitle,
+    fontFamily: fonts.DMSansBold,
     marginBottom: 10,
   },
   emptyStateSubText: {
     fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
+    fontFamily: fonts.DMSansRegular,
+    color: colorsConstants.onBoardingSubtitle,
+    textAlign: 'left',
   },
 });
 

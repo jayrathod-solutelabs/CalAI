@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Screens
 import SplashScreen from '../screens/Splash/SplashScreen';
-import HomeScreen from '../screens/Home/HomeScreen';
+import TabNavigation from './TabNavigation';
 import OnboardingScreen from '../screens/OnBoarding/OnBoardingScreen';
 import MacroEditScreen from '../screens/ProfileSetup/MacroEditScreen';
 import ProfileSetupContainer from '../screens/ProfileSetup/ProfileSetupContainer';
@@ -13,7 +13,7 @@ import ProfileSetupContainer from '../screens/ProfileSetup/ProfileSetupContainer
 // Define the types for navigation
 export type RootStackParamList = {
   Steps: undefined;
-  Home: undefined;
+  Main: undefined;
   MacroEdit: {
     title: string;
     value: string | number;
@@ -88,14 +88,14 @@ export default function StackNavigation() {
         />
       ) : (
         <Stack.Navigator
-          initialRouteName={isSetupSkipped ? "Home" : "Steps"}
+          initialRouteName={isSetupSkipped ? "Main" : "Steps"}
           screenOptions={{
             headerShown: false,
             animation: 'fade',
           }}
         >
           <Stack.Screen name="Steps" component={ProfileSetupContainer} />
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Main" component={TabNavigation} />
           <Stack.Screen name="MacroEdit" component={MacroEditScreen} />
         </Stack.Navigator>
       )}

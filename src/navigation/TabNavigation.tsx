@@ -14,6 +14,7 @@ import FloatingActionButton from '../components/FloatingActionButton';
 import HomeScreen from '../screens/Home/HomeScreen';
 import AnalyticsScreen from '../screens/Analytics/AnalyticsScreen';
 import SettingsScreen from '../screens/Settings/SettingsScreen';
+import fonts from '../constants/fontConstants';
 
 // Tab Navigator Parameter List
 export type TabNavigatorParamList = {
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
   },
   tabBarLabel: {
     fontSize: 12,
+    fontFamily: fonts.DMSansBold,
   },
 });
 

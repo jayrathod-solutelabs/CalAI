@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faAppleAlt, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { faHome, faChartBar, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faChartBar, faGear, faHouse } from '@fortawesome/free-solid-svg-icons';
+import FontAwesome, { SolidIcons, RegularIcons, BrandIcons } from 'react-native-fontawesome';
 
 
 // Components
@@ -35,20 +35,20 @@ const TabNavigation = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let icon;
-      
-            if (route.name === 'Home') {
-              icon = faHome;
-            } else if (route.name === 'Analytics') {
-              icon = faChartBar;
-            } else if (route.name === 'Settings') {
-              icon = faGear;
-            } else {
-              icon = faGear;
-            }
-      
-            return <FontAwesomeIcon icon={icon} size={size} color={color} />;
-          },
+      let icon;
+
+      if (route.name === 'Home') {
+        icon = faHome;
+      } else if (route.name === 'Analytics') {
+        icon = faChartBar;
+      } else if (route.name === 'Settings') {
+        icon = faGear;
+      } else {
+        icon = faGear;
+      }
+
+      return <FontAwesomeIcon icon={icon} size={size} color={color} />;
+    },
           tabBarActiveTintColor: 'black',
           tabBarInactiveTintColor: 'gray',
           headerShown: false,

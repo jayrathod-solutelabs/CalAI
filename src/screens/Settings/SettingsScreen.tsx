@@ -1,6 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Switch, ScrollView } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import fonts from '../../constants/fontConstants';
+import { colorsConstants } from '../../constants/colorsConstants';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAppleAlt, faArrowRight, faArrowRightArrowLeft, faArrowRightLong, faForward, faForwardStep, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const SettingsScreen = () => {
   const [burnedCaloriesEnabled, setBurnedCaloriesEnabled] = React.useState(false);
@@ -40,7 +43,7 @@ const SettingsScreen = () => {
           
           <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuItemText}>Personal details</Text>
-            <Ionicons name="chevron-forward" size={20} color="#ccc" />
+            <FontAwesomeIcon icon={faArrowRight} size={20} color="#ccc" />
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.menuItem}>
@@ -48,7 +51,7 @@ const SettingsScreen = () => {
               <Text style={styles.menuItemText}>Adjust goals</Text>
               <Text style={styles.menuItemSubtext}>Calories, carbs, fats, and protein</Text>
             </View>
-            <Ionicons name="chevron-forward" size={20} color="#ccc" />
+            <FontAwesomeIcon icon={faArrowRight} size={20} color="#ccc" />
           </TouchableOpacity>
         </View>
         
@@ -79,12 +82,13 @@ const SettingsScreen = () => {
           
           <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuItemText}>Terms and Conditions</Text>
-            <Ionicons name="chevron-forward" size={20} color="#ccc" />
+            <FontAwesomeIcon icon={faArrowRight} size={20} color="#ccc" />
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuItemText}>Privacy Policy</Text>
-            <Ionicons name="chevron-forward" size={20} color="#ccc" />
+            <FontAwesomeIcon icon={faArrowRight} size={20} color="#ccc" />
+
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -103,8 +107,8 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000',
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle
   },
   scrollView: {
     flex: 1,
@@ -115,8 +119,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   sectionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
     marginBottom: 15,
     marginTop: 5,
   },
@@ -127,26 +132,26 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     fontSize: 18,
-    color: '#000',
+    fontFamily: fonts.DMSansMedium,
   },
   infoValue: {
     fontSize: 18,
-    color: '#666',
-    fontWeight: '500',
+    fontFamily: fonts.DMSansMedium,
+    color: colorsConstants.onBoardingTitle
   },
   menuItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 15,
+    paddingVertical: 10,
   },
   menuItemText: {
     fontSize: 18,
-    color: '#000',
+    fontFamily: fonts.DMSansMedium,
   },
   menuItemSubtext: {
-    fontSize: 14,
-    color: '#666',
+    fontSize: 13,
+    fontFamily: fonts.DMSansMedium,
     marginTop: 4,
   },
   divider: {

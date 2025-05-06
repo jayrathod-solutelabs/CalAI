@@ -1,6 +1,10 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faAppleAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 interface FloatingActionButtonProps {
   onPress: () => void;
@@ -12,21 +16,21 @@ interface FloatingActionButtonProps {
 const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   onPress,
   icon = 'add',
-  size = 30,
+  size = 22,
   color = 'white',
 }) => {
   return (
     <TouchableOpacity style={styles.fab} onPress={onPress} activeOpacity={0.8}>
-      <Ionicons name={icon} size={size} color={color} />
-    </TouchableOpacity>
+    <FontAwesomeIcon icon={faPlus} size={size} color={color} />
+  </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   fab: {
     position: 'absolute',
-    bottom: 20,
-    right: 20,
+    bottom: 70,
+    right: 30,
     backgroundColor: '#1a1a1a',
     width: 60,
     height: 60,

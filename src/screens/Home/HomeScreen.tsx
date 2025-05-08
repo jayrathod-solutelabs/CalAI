@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginTop: 2,
     
+    
   },
   streakContainer: {
     flexDirection: 'row',

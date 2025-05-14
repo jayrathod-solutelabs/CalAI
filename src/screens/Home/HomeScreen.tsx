@@ -1,7 +1,7 @@
 // In HomeScreen.tsx
 import { FontAwesome } from '@expo/vector-icons';
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { faAppleAlt, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,12 +9,112 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import fonts from '../../constants/fontConstants';
 import { colorsConstants } from '../../constants/colorsConstants';
 
+// Type definitions
+interface WeekData {
+  weekDays: string[];
+  dayNumbers: number[];
+  today: number | null;
+}
 
 const HomeScreen = () => {
-  // Week days
-  const weekDays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const dayNumbers = [20, 21, 22, 23, 24, 25, 26];
-  const today = 4; // Index for today (Thursday)
+  const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
+  const weekListRef = useRef<FlatList<WeekData>>(null);
+  const weekWidth = Dimensions.get('window').width;
+  
+  // Generate past weeks and current week data
+  const generateCalendarData = (): WeekData[] => {
+    const today = new Date();
+    const currentDayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    
+    // Generate 10 weeks of data (current week and 9 past weeks)
+    const weeks: WeekData[] = [];
+    
+    for (let weekOffset = 0; weekOffset < 10; weekOffset++) {
+      const weekDays: string[] = [];
+      const dayNumbers: number[] = [];
+      
+      // Calculate the start date of this week (Sunday)
+      const startOfWeek = new Date(today);
+      startOfWeek.setDate(today.getDate() - currentDayOfWeek - (7 * weekOffset));
+      
+      // Generate 7 days for this week
+      for (let i = 0; i < 7; i++) {
+        const day = new Date(startOfWeek);
+        day.setDate(startOfWeek.getDate() + i);
+        
+        weekDays.push(['S', 'M', 'T', 'W', 'T', 'F', 'S'][i]);
+        dayNumbers.push(day.getDate());
+      }
+      
+      weeks.push({
+        weekDays,
+        dayNumbers,
+        today: weekOffset === 0 ? currentDayOfWeek : null // Only set today for current week
+      });
+    }
+    
+    // Reverse the array to have the oldest week first
+    return weeks.reverse();
+  };
+  
+  const calendarData = generateCalendarData();
+  
+  useEffect(() => {
+    // Scroll to the most recent week initially
+    if (weekListRef.current) {
+      setTimeout(() => {
+        if (weekListRef.current) {
+          weekListRef.current.scrollToIndex({
+            index: calendarData.length - 1,
+            animated: false
+          });
+        }
+      }, 100);
+    }
+  }, []);
+
+  // Render a single week
+  const renderWeek = ({ item, index }: { item: WeekData; index: number }) => {
+    return (
+      <View style={[styles.calendarWeek, { width: weekWidth }]}>
+        {item.weekDays.map((day: string, dayIndex: number) => {
+          // Determine if this date is in the future
+          const isFutureDate = index === calendarData.length - 1 && dayIndex > (item.today || 0);
+          
+          return (
+            <View key={dayIndex} style={styles.dayCol}>
+              <View 
+                style={[
+                  styles.dayCircle, 
+                  item.today === dayIndex && index === calendarData.length - 1 ? styles.dayCircleActive : styles.dayCircleInactive,
+                  isFutureDate && styles.dayCircleDisabled
+                ]}
+              >
+                <Text 
+                  style={[
+                    styles.dayText,
+                    item.today === dayIndex && index === calendarData.length - 1 && styles.activeDayText,
+                    isFutureDate && styles.disabledDayText
+                  ]}
+                >
+                  {day}
+                </Text>
+              </View>
+              <Text 
+                style={[
+                  styles.dateText, 
+                  item.today === dayIndex && index === calendarData.length - 1 && styles.dateTextActive,
+                  isFutureDate && styles.disabledDateText
+                ]}
+              >
+                {item.dayNumbers[dayIndex]}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,24 +129,26 @@ const HomeScreen = () => {
       </View>
 
       <ScrollView style={styles.scrollView}>
-        {/* Calendar Week */}
-        <View style={styles.calendarWeek}>
-          {weekDays.map((day, index) => (
-            <View key={index} style={styles.dayCol}>
-              <View 
-                style={[
-                  styles.dayCircle, 
-                  index === today ? styles.dayCircleActive : styles.dayCircleInactive
-                ]}
-              >
-                <Text style={styles.dayText}>{day}</Text>
-              </View>
-              <Text style={[styles.dateText, index === today && styles.dateTextActive]}>
-                {dayNumbers[index]}
-              </Text>
-            </View>
-          ))}
-        </View>
+        {/* Calendar Week - Horizontal Scrollable */}
+        <FlatList
+          ref={weekListRef}
+          data={calendarData}
+          renderItem={renderWeek}
+          keyExtractor={(_, index) => `week-${index}`}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          initialScrollIndex={calendarData.length - 1}
+          getItemLayout={(_, index) => ({
+            length: weekWidth,
+            offset: weekWidth * index,
+            index,
+          })}
+          onMomentumScrollEnd={(event) => {
+            const newIndex = Math.round(event.nativeEvent.contentOffset.x / weekWidth);
+            setCurrentWeekIndex(newIndex);
+          }}
+        />
 
         {/* Calories Card */}
         <View style={styles.caloriesCard}>
@@ -132,8 +234,6 @@ const styles = StyleSheet.create({
     color : colorsConstants.onBoardingTitle,
     marginLeft: 8,
     marginTop: 2,
-    
-    
   },
   streakContainer: {
     flexDirection: 'row',
@@ -175,11 +275,23 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderStyle: 'dashed',
   },
+  dayCircleDisabled: {
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    borderStyle: 'dashed',
+    opacity: 0.5,
+  },
   dayText: {
     fontSize: 16,
     fontWeight: '500',
     color: '#888',
     fontFamily: fonts.DMSansMedium,
+  },
+  activeDayText: {
+    color: '#fff',
+  },
+  disabledDayText: {
+    color: '#ccc',
   },
   dateText: {
     fontSize: 16,
@@ -188,6 +300,9 @@ const styles = StyleSheet.create({
   },
   dateTextActive: {
     fontWeight: 'bold',
+  },
+  disabledDateText: {
+    color: '#ccc',
   },
   caloriesCard: {
     backgroundColor: '#fff',

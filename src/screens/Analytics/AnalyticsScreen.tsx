@@ -11,6 +11,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import fonts from '../../constants/fontConstants';
 import {colorsConstants} from '../../constants/colorsConstants';
 import { faPadlet } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faCircleInfo, faInfo, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const AnalyticsScreen = () => {
   return (
@@ -57,11 +59,7 @@ const AnalyticsScreen = () => {
                       <Text style={styles.healthyText}>Healthy</Text>
                     </View>
                   </View>
-                  <Ionicons
-                    name="information-circle-outline"
-                    size={24}
-                    color="#000"
-                  />
+                  <FontAwesomeIcon icon={faInfoCircle} size={24} color="#000" />
                 </View>
                 <Text style={styles.bmiValue}>19.8</Text>
 
@@ -100,7 +98,7 @@ const AnalyticsScreen = () => {
 
             <View style={styles.progressSection}>
               <View style={styles.progressHeader}>
-                <Text style={styles.labelText}>Goal Progress</Text>
+                <Text style={styles.labelTextNew}>Goal Progress</Text>
                 <Text style={styles.progressPercentText}>
                   0.0% <Text style={styles.progressSubText}>Goal achieved</Text>
                 </Text>
@@ -145,13 +143,14 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   headerTitle: {
-    fontSize: 32,
+    fontSize: 32,    
     fontFamily: fonts.DMSansBold,
     color: colorsConstants.onBoardingTitle,
   },
   scrollView: {
     flex: 1,
   },
+
   overviewCard: {
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -255,7 +254,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
-    marginHorizontal: 15,
+    marginHorizontal: 8,
   },
   bmiHeaderRow: {
     flexDirection: 'row',
@@ -329,11 +328,12 @@ const styles = StyleSheet.create({
   },
   progressPercentText: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontFamily: fonts.DMSansMedium,
+    color: colorsConstants.onBoardingTitle
   },
   progressSubText: {
     color: '#888',
-    fontWeight: 'normal',
+    fontFamily: fonts.DMSansRegular
   },
   timeButtons: {
     flexDirection: 'row',
@@ -358,10 +358,12 @@ const styles = StyleSheet.create({
   timeButtonText: {
     fontSize: 14,
     color: '#888',
+    fontFamily: fonts.DMSansLight
   },
   timeButtonTextActive: {
     color: '#000',
     fontWeight: '500',
+    fontFamily: fonts.DMSansLight
   },
 });
 

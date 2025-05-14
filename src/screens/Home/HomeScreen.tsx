@@ -21,6 +21,8 @@ const HomeScreen = () => {
   const [showStreakModal, setShowStreakModal] = useState(true);
   const weekListRef = useRef<FlatList<WeekData>>(null);
   const weekWidth = Dimensions.get('window').width;
+  const today = new Date();
+  const currentDayIndex = today.getDay(); // 0 = Sunday, 6 = Saturday
   
   // Generate past weeks and current week data
   const generateCalendarData = (): WeekData[] => {
@@ -154,8 +156,16 @@ const HomeScreen = () => {
               
               <View style={styles.weekdayRow}>
                 {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
-                  <View key={index} style={styles.weekdayCircle}>
-                    <Text style={styles.weekdayText}>{day}</Text>
+                  <View key={index} style={styles.weekdayContainer}>
+                    <Text style={[
+                      styles.weekdayText,
+                      index === currentDayIndex && styles.weekdayTextActive
+                    ]}>
+                      {day}
+                    </Text>
+                    <View style={[
+                      styles.weekdayCircle
+                    ]} />
                   </View>
                 ))}
               </View>
@@ -580,22 +590,31 @@ const styles = StyleSheet.create({
   },
   weekdayRow: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
+    paddingHorizontal: 20,
     marginBottom: 20,
   },
-  weekdayCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#F5F5F5',
-    justifyContent: 'center',
+  weekdayContainer: {
     alignItems: 'center',
   },
   weekdayText: {
     fontSize: 14,
     fontFamily: fonts.DMSansMedium,
-    color: colorsConstants.onBoardingSubtitle,
+    color: '#aaa',
+    marginBottom: 8,
+  },
+  weekdayTextActive: {
+    color: '#F6923D',
+  },
+  weekdayCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#F5F5F5',
+  },
+  weekdayCircleActive: {
+    backgroundColor: '#F6923D',
   },
   streakMessage: {
     fontSize: 10,

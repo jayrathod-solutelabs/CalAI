@@ -1,7 +1,7 @@
 // In HomeScreen.tsx
 import { FontAwesome } from '@expo/vector-icons';
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, FlatList, Dimensions, Modal } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { faAppleAlt, faXmark } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,6 +18,7 @@ interface WeekData {
 
 const HomeScreen = () => {
   const [currentWeekIndex, setCurrentWeekIndex] = useState(0);
+  const [showStreakModal, setShowStreakModal] = useState(true);
   const weekListRef = useRef<FlatList<WeekData>>(null);
   const weekWidth = Dimensions.get('window').width;
   
@@ -116,8 +117,69 @@ const HomeScreen = () => {
     );
   };
 
+  // Renders the streak modal popup
+  const renderStreakModal = () => {
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={showStreakModal}
+        onRequestClose={() => setShowStreakModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <View style={styles.modalTitleContainer}>
+                <FontAwesomeIcon icon={faAppleAlt} size={16} color="black" />
+                <Text style={styles.modalTitle}>Cal AI</Text>
+              </View>
+              <View style={styles.streakBadge}>
+                <Text style={styles.streakBadgeText}>🔥 0</Text>
+              </View>
+            </View>
+            
+            <View style={styles.modalStreakContainer}>
+              <View style={styles.fireIconContainer}>
+                <View style={styles.fireIconCircle}>
+                  <Text style={styles.fireIcon}>🔥</Text>
+                </View>
+                <View style={styles.fireIconSparks}>
+                  <Text style={styles.sparkIcon}>✨</Text>
+                  <Text style={styles.sparkIcon}>✨</Text>
+                </View>
+              </View>
+              
+              <Text style={styles.streakTitle}>0</Text>
+              <Text style={styles.streakSubtitle}>Day streak</Text>
+              
+              <View style={styles.weekdayRow}>
+                {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+                  <View key={index} style={styles.weekdayCircle}>
+                    <Text style={styles.weekdayText}>{day}</Text>
+                  </View>
+                ))}
+              </View>
+              
+              <Text style={styles.streakMessage}>
+                You're on fire! Every day matters for hitting your goal!
+              </Text>
+              
+              <TouchableOpacity 
+                style={styles.continueButton}
+                onPress={() => setShowStreakModal(false)}
+              >
+                <Text style={styles.continueButtonText}>Continue</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
+      {renderStreakModal()}
       <View style={styles.header}>
         <View style={styles.logoContainer}>
         <FontAwesomeIcon icon={faAppleAlt} size={24} color="black" />
@@ -423,6 +485,144 @@ const styles = StyleSheet.create({
     fontFamily: fonts.DMSansRegular,
     color: colorsConstants.onBoardingSubtitle,
     textAlign: 'left',
+  },
+  
+  // Day Streak Modal Styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: '90%',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    overflow: 'hidden',
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  modalTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: fonts.DMSansBold,
+    marginTop: 2,
+    color: colorsConstants.onBoardingTitle,
+  },
+  streakBadge: {
+    backgroundColor: '#fff',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#f0f0f0',
+  },
+  streakBadgeText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  modalStreakContainer: {
+    alignItems: 'center',
+    padding: 25,
+  },
+  fireIconContainer: {
+    position: 'relative',
+    marginBottom: 20,
+  },
+  fireIconCircle: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#FFF5E7',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fireIcon: {
+    fontSize: 40,
+  },
+  fireIconSparks: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  sparkIcon: {
+    fontSize: 22,
+    marginHorizontal: -5,
+  },
+  streakTitle: {
+    fontSize: 40,
+    fontFamily: fonts.DMSansBold,
+    color: colorsConstants.onBoardingTitle,
+    marginBottom: 5,
+  },
+  streakSubtitle: {
+    fontSize: 18,
+    fontFamily: fonts.DMSansMedium,
+    color: colorsConstants.onBoardingSubtitle,
+    marginBottom: 25,
+  },
+  weekdayRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginBottom: 20,
+  },
+  weekdayCircle: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#F5F5F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  weekdayText: {
+    fontSize: 14,
+    fontFamily: fonts.DMSansMedium,
+    color: colorsConstants.onBoardingSubtitle,
+  },
+  streakMessage: {
+    fontSize: 10,
+    fontFamily: fonts.DMSansRegular,
+    color: colorsConstants.onBoardingSubtitle,
+    textAlign: 'center',
+    marginBottom: 25,
+    paddingHorizontal: 20,
+  },
+  continueButton: {
+    backgroundColor: '#1E1E1E',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 30,
+    width: '100%',
+    alignItems: 'center',
+  },
+  continueButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: fonts.DMSansBold,
+  },
+  tipsText: {
+    fontSize: 14,
+    fontFamily: fonts.DMSansRegular,
+    color: colorsConstants.onBoardingSubtitle,
+    textAlign: 'center',
   },
 });
 
